@@ -61,6 +61,16 @@ p { margin: 0; }
 .row { display: flex; gap: 12px; flex-wrap: wrap; }
 .row > * { flex: 1 1 140px; min-width: 0; }
 .week { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.big-num { font-size: 40px; font-weight: 700; line-height: 1.1; margin: 0; }
+.his-lista { display: flex; flex-direction: column; gap: 8px; }
+.his-dia { display: flex; align-items: center; gap: 12px; border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px; background: var(--surface); font-size: 17px; }
+.his-dia .ico { width: 34px; height: 34px; border-radius: 17px; flex: none; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; }
+.his-dia .ok { background: var(--accent); color: var(--accent-fg); }
+.his-dia .no { background: var(--alert); }
+.his-dia .pend { background: #8A8377; }
+.his-dia .txt { flex: 1; display: flex; flex-direction: column; }
+.his-dia .txt span { font-size: 15px; color: var(--muted); }
+.his-dia button { font: inherit; font-size: 15px; border: 2px solid currentColor; background: transparent; border-radius: 12px; padding: 6px 10px; min-height: 44px; color: inherit; cursor: pointer; }
 .day { border: 2px solid var(--line); border-radius: 14px; padding: 8px; background: var(--surface); display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
 .day.today { border-color: var(--accent); border-width: 3px; }
 .day img { width: 100%; border-radius: 8px; background: var(--paper); }
@@ -123,8 +133,9 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     <button class="btn secondary" type="button" data-go="semana">Ver toda la pauta</button>
     <button class="btn secondary" type="button" data-go="pauta">Cambiar pauta</button>
   </div>
+  <button class="btn secondary" type="button" data-go="historial">Mis tomas · compartir</button>
   <p class="disclaimer">Esta app es solo un recordatorio. Ante cualquier duda, sigue la pauta de tu médico.</p>
-  <p class="disclaimer" id="version">Versión 7 · lectura automática de la pauta</p>
+  <p class="disclaimer" id="version">Versión 8 · historial de tomas</p>
 </section>
 
 <!-- AÑADIR PAUTA -->
@@ -242,6 +253,23 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
 </section>
 
 <!-- SEMANA -->
+<section class="screen" id="s-historial" hidden>
+  <button class="back" type="button" data-go="hoy">‹ Volver</button>
+  <h1>Mis tomas</h1>
+  <div class="card">
+    <h2 id="his-resumen">Últimos 30 días</h2>
+    <p class="big-num" id="his-pct"></p>
+    <p class="small muted" id="his-detalle"></p>
+  </div>
+  <h2>Compartir con quien te ayuda o con tu médico</h2>
+  <button class="btn primary" type="button" id="btn-his-compartir">Compartir el resumen</button>
+  <a class="btn secondary" id="btn-his-wa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+  <a class="btn secondary" id="btn-his-mail" target="_blank" rel="noopener">Enviar por correo</a>
+  <h2>Día a día</h2>
+  <div class="his-lista" id="his-lista"></div>
+  <p class="disclaimer">El resumen recoge lo que se ha confirmado en la app. No sustituye al control del médico.</p>
+</section>
+
 <section class="screen" id="s-semana" hidden>
   <button class="back" type="button" data-go="hoy">‹ Volver</button>
   <h1>Toda la pauta</h1>
@@ -277,7 +305,8 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     ayuda: { nombre: '', tel: '' },
     inr: [],       // [{ valor, fecha }]
     control: { fecha: '', hora: '', turno: '', lugar: '' },
-    tomas: {}      // { 'YYYY-MM-DD': 'HH:MM' }
+    tomas: {},     // { 'YYYY-MM-DD': 'HH:MM' or 'tarde' when confirmed afterwards }
+    previstos: []  // dose days of earlier pautas, so the history survives a new sheet
   };
   try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
   let save = function () { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
@@ -709,6 +738,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   function usarLectura(img, days, extras) {
     // days already past do not need checking: start the review at today
     const desdeHoy = days.findIndex((d) => d.date >= iso(today()));
+    archivarPauta(days.length ? days[0].date : iso(today()));
     state.pauta = { img, mode: 'auto', days, revisado: desdeHoy < 0 ? 0 : desdeHoy, confirmed: false, ejemplo: false };
     if (extras && extras.control) state.control = extras.control;
     if (extras && extras.inr && !state.inr.some((r) => r.fecha === extras.inr.fecha)) state.inr.push(extras.inr);
@@ -838,7 +868,86 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     });
   }
 
-  const renders = { hoy: renderHoy, ajustes: renderAjustes, control: renderControl, inr: renderInr, semana: renderSemana,
+
+  // ---------- history of doses taken, to share with a helper or the doctor ----------
+  function archivarPauta(desde) {
+    const p = state.pauta;
+    if (!p || p.ejemplo || p.mode !== 'auto' || !p.confirmed) return;
+    const set = new Set(state.previstos || []);
+    p.days.forEach((d) => { if (d.date < desde) set.add(d.date); });
+    state.previstos = [...set].sort();
+  }
+  function diasPrevistos() {
+    const set = new Set(state.previstos || []);
+    if (state.pauta && !state.pauta.ejemplo && (state.pauta.confirmed || state.pauta.mode === 'auto')) cells().forEach((c) => set.add(c.date));
+    Object.keys(state.tomas).forEach((k) => set.add(k));
+    return [...set].sort();
+  }
+  const DIAS_HIS = 30;
+  function historial() {
+    const hoy = iso(today()), desde = new Date(today()); desde.setDate(desde.getDate() - (DIAS_HIS - 1));
+    const lista = diasPrevistos().filter((k) => k <= hoy && k >= iso(desde)).reverse().map((k) => {
+      const t = state.tomas[k];
+      return { k, t, estado: t ? 'ok' : k === hoy ? 'pend' : 'no' };
+    });
+    const cuentan = lista.filter((d) => d.estado !== 'pend');
+    const ok = cuentan.filter((d) => d.estado === 'ok').length;
+    return { lista, ok, total: cuentan.length, pct: cuentan.length ? Math.round((ok / cuentan.length) * 100) : null };
+  }
+  const fmtCortoAnyo = (d) => d.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+  function textoTomada(t) { return t === 'tarde' ? 'tomada (confirmada después)' : 'tomada a las ' + t; }
+  function textoHistorial() {
+    const h = historial();
+    const L = ['Mi Sintrom · Resumen de tomas'];
+    if (h.lista.length) L.push('Del ' + fmtLargo(parseIso(h.lista[h.lista.length - 1].k)) + ' al ' + fmtLargo(parseIso(h.lista[0].k)));
+    if (h.total) L.push('Tomas confirmadas: ' + h.ok + ' de ' + h.total + ' días (' + h.pct + ' %)');
+    const faltan = h.lista.filter((d) => d.estado === 'no').map((d) => fmtCortoAnyo(parseIso(d.k)));
+    L.push(faltan.length ? 'Días sin confirmar: ' + faltan.join(', ') : 'Ningún día sin confirmar.');
+    const inr = state.inr[state.inr.length - 1];
+    if (inr) L.push('Último INR: ' + inr.valor + (inr.fecha ? ' (' + fmtLargo(parseIso(inr.fecha)) + ')' : ''));
+    if (state.control.fecha) L.push('Próximo control: ' + controlTexto());
+    L.push('', 'Día a día:');
+    h.lista.forEach((d) => L.push(fmtCortoAnyo(parseIso(d.k)) + ' · ' + (d.estado === 'ok' ? textoTomada(d.t) : d.estado === 'pend' ? 'pendiente' : 'SIN CONFIRMAR')));
+    L.push('', 'Registro de lo confirmado en la app Mi Sintrom. No sustituye al control médico.');
+    return L.join('\n');
+  }
+  function renderHistorial() {
+    const h = historial();
+    $('his-resumen').textContent = 'Últimos ' + DIAS_HIS + ' días';
+    $('his-pct').textContent = h.total ? h.ok + ' de ' + h.total : '—';
+    $('his-detalle').textContent = h.total ? 'días con la toma confirmada (' + h.pct + ' %)' : 'Aún no hay días para mostrar.';
+    const box = $('his-lista'); box.textContent = '';
+    h.lista.forEach((d) => {
+      const row = document.createElement('div'); row.className = 'his-dia';
+      const ico = document.createElement('span'); ico.className = 'ico ' + d.estado; ico.setAttribute('aria-hidden', 'true');
+      ico.textContent = d.estado === 'ok' ? '✓' : d.estado === 'pend' ? '…' : '!';
+      const txt = document.createElement('div'); txt.className = 'txt';
+      const b = document.createElement('strong'); b.textContent = fmtDia(parseIso(d.k)) + ' ' + fmtLargo(parseIso(d.k));
+      const sub = document.createElement('span');
+      sub.textContent = d.estado === 'ok' ? textoTomada(d.t).replace(/^t/, 'T') : d.estado === 'pend' ? 'Pendiente' : 'Sin confirmar';
+      txt.appendChild(b); txt.appendChild(sub); row.appendChild(ico); row.appendChild(txt);
+      if (d.estado === 'no') {
+        const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = 'Sí la tomé';
+        btn.addEventListener('click', () => { state.tomas[d.k] = 'tarde'; save(); renderHistorial(); });
+        row.appendChild(btn);
+      }
+      box.appendChild(row);
+    });
+    const texto = textoHistorial();
+    $('btn-his-wa').href = waLink(state.ayuda.tel, texto);
+    $('btn-his-wa').textContent = state.ayuda.nombre ? 'Enviar a ' + state.ayuda.nombre + ' por WhatsApp' : 'Enviar por WhatsApp';
+    $('btn-his-mail').href = 'mailto:?subject=' + encodeURIComponent('Resumen de tomas de Sintrom') + '&body=' + encodeURIComponent(texto);
+  }
+  $('btn-his-compartir').addEventListener('click', async () => {
+    const text = textoHistorial(), Share = plugin('Share');
+    try {
+      if (Share) await Share.share({ title: 'Resumen de tomas de Sintrom', text, dialogTitle: 'Compartir resumen' });
+      else if (navigator.share) await navigator.share({ title: 'Resumen de tomas de Sintrom', text });
+      else { await navigator.clipboard.writeText(text); $('btn-his-compartir').textContent = 'Copiado. Pégalo donde quieras'; }
+    } catch (e) { /* closed the share sheet */ }
+  });
+
+  const renders = { historial: renderHistorial, hoy: renderHoy, ajustes: renderAjustes, control: renderControl, inr: renderInr, semana: renderSemana,
     revisar: renderRevisar,
     confirmar: () => showCrop('conf-crop', 'conf-fuera'),
     pauta: () => { $('pauta-manual').hidden = true; $('pauta-estado').textContent = ''; } };
@@ -939,7 +1048,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     document.body.classList.add('nativo');
     $('card-gcal').hidden = true; $('pauta-ayuda').hidden = true;
     $('avisos-nativo').hidden = false; $('avisos-web').hidden = true;
-    $('version').textContent = 'Versión 7 · app instalada';
+    $('version').textContent = 'Versión 8 · app instalada';
     const _save = save;
     save = function () { _save(); clearTimeout(save.t); save.t = setTimeout(programarAvisos, 400); };
     document.addEventListener('visibilitychange', () => { if (!document.hidden) { if (!$('s-hoy').hidden) renderHoy(); programarAvisos(); } });

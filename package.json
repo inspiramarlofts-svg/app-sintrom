@@ -1,6 +1,6 @@
 {
   "name": "mi-sintrom",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Recordatorio de Sintrom con la foto de tu pauta",
   "scripts": {
     "build": "node scripts/build-www.mjs",
@@ -17,6 +17,7 @@
     "@capacitor/core": "^8.5.3",
     "@capacitor/filesystem": "^8.1.5",
     "@capacitor/local-notifications": "^8.3.1",
+    "@capacitor/share": "^8.0.3",
     "@fontsource/atkinson-hyperlegible": "^5.3.0",
     "pdfjs-dist": "^3.11.174"
   },
