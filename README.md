@@ -8,3 +8,10 @@ Recordatorio diario del Sintrom que enseña, cada día, el recorte de la hoja de
 - Cada cambio en `main` genera el APK en GitHub Actions y lo publica en la versión "ultima".
 
 Esta app es solo un recordatorio. Ante cualquier duda, sigue la pauta de tu médico.
+
+## Textos legales
+
+- [Aviso legal y condiciones de uso](legal/aviso-legal.md)
+- [Política de privacidad](legal/privacidad.md) (enlace para Google Play)
+
+Los datos del titular se rellenan en `TITULAR` dentro de `src/app.html` y en estos dos archivos.

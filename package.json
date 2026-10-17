@@ -1,6 +1,6 @@
 {
   "name": "mi-sintrom",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Recordatorio de Sintrom con la foto de tu pauta",
   "scripts": {
     "build": "node scripts/build-www.mjs",
