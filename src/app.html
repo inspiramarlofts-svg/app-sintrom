@@ -1,0 +1,951 @@
+<title>Mi Sintrom</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: one phone-width column, one screen visible at a time, huge targets for older eyes and hands */
+:root {
+  --bg: #FBF8F3; --surface: #FFFFFF; --soft: #EFE9DF; --line: #E3DCCF;
+  --fg: #1B1F24; --muted: #4E4840;
+  --accent: #0B4F55; --accent-fg: #FFFFFF;
+  --warm: #FCE9D6; --warm-fg: #6B3A0A; --alert: #B4530A;
+  --paper: #F4F1EA;
+  --font: 'Atkinson Hyperlegible', 'Verdana', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191C; --surface: #1F2529; --soft: #273036; --line: #36414A;
+  --fg: #F2EFE9; --muted: #C2BBB0; --accent: #6FC3C9; --accent-fg: #0C1A1C;
+  --warm: #3A2A1C; --warm-fg: #F6C995; --alert: #F2A35E; --paper: #F4F1EA; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #15191C; --surface: #1F2529; --soft: #273036; --line: #36414A;
+  --fg: #F2EFE9; --muted: #C2BBB0; --accent: #6FC3C9; --accent-fg: #0C1A1C;
+  --warm: #3A2A1C; --warm-fg: #F6C995; --alert: #F2A35E; --paper: #F4F1EA; color-scheme: dark }
+
+[hidden] { display: none !important; }
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--font); font-size: 19px; line-height: 1.4; }
+.app { max-width: 480px; margin: 0 auto; padding-block: 16px 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.screen { display: flex; flex-direction: column; gap: 16px; }
+h1 { font-size: 32px; line-height: 1.1; margin: 0; text-wrap: balance; }
+h2 { font-size: 22px; margin: 0; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 15px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 8px; border: 2px dashed var(--line); border-radius: 12px; padding: 6px 12px; font-size: 15px; color: var(--muted); }
+.iconbtn { width: 52px; height: 52px; border-radius: 26px; border: none; background: var(--soft); color: var(--fg); display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+.back { align-self: flex-start; background: none; border: none; color: var(--accent); font: inherit; font-size: 19px; min-height: 48px; display: flex; align-items: center; gap: 4px; cursor: pointer; padding: 0; }
+.card { background: var(--surface); border: 2px solid var(--line); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.crop { width: 100%; border-radius: 14px; border: 3px solid var(--fg); background: var(--paper); display: block; }
+.crop.big { min-height: 220px; object-fit: contain; }
+.btn { min-height: 68px; border-radius: 20px; border: none; font: inherit; font-size: 23px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; padding: 8px 16px; text-align: center; text-decoration: none; }
+.btn.primary { background: var(--accent); color: var(--accent-fg); }
+.btn.secondary { background: transparent; color: var(--fg); border: 2px solid var(--fg); min-height: 58px; font-size: 20px; }
+.btn.huge { min-height: 140px; flex-direction: column; font-size: 26px; }
+.btn.done { background: var(--soft); color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tile { border-radius: 18px; padding: 12px 14px; background: var(--soft); border: none; text-align: left; font: inherit; color: var(--fg); cursor: pointer; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tile.warm { background: var(--warm); color: var(--fg); }
+.tile .label { font-size: 15px; color: var(--muted); }
+.tile.warm .label, .tile.warm .sub { color: var(--warm-fg); }
+.tile .value { font-size: 26px; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+.tile .sub { font-size: 15px; color: var(--muted); }
+.banner { border-radius: 18px; padding: 14px 16px; background: var(--warm); color: var(--warm-fg); font-size: 18px; display: flex; flex-direction: column; gap: 10px; }
+.banner strong { color: var(--fg); }
+.alarm { background: var(--alert); color: #FFFFFF; border-radius: 22px; padding: 18px; font-size: 24px; font-weight: 700; text-align: center; }
+.disclaimer { font-size: 14px; color: var(--muted); line-height: 1.35; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 17px; font-weight: 700; }
+.field input, .field select { font: inherit; font-size: 22px; min-height: 56px; border-radius: 14px; border: 2px solid var(--line); background: var(--surface); color: var(--fg); padding: 0 14px; box-sizing: border-box; width: 100%; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
+.row > * { flex: 1 1 140px; min-width: 0; }
+.week { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.day { border: 2px solid var(--line); border-radius: 14px; padding: 8px; background: var(--surface); display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.day.today { border-color: var(--accent); border-width: 3px; }
+.day img { width: 100%; border-radius: 8px; background: var(--paper); }
+details { background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 12px 16px; }
+summary { font-weight: 700; cursor: pointer; min-height: 40px; display: flex; align-items: center; }
+.sliders { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.sliders input[type=range] { width: 100%; accent-color: var(--accent); }
+canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line); background: var(--paper); }
+.check { display: flex; align-items: center; gap: 12px; }
+:focus-visible { outline: 3px solid var(--alert); outline-offset: 2px; }
+.picker { position: relative; overflow: hidden; }
+.picker input[type=file] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 200px; }
+.picker:focus-within { outline: 3px solid var(--alert); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) { .alarm { animation: pulse 1.6s ease-in-out infinite; } }
+@keyframes pulse { 50% { transform: scale(1.02); } }
+</style>
+
+<div class="app">
+
+<!-- HOY -->
+<section class="screen" id="s-hoy">
+  <div class="top">
+    <div class="brand"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg><span>Tu farmacia</span></div>
+    <button class="iconbtn" type="button" data-go="ajustes" aria-label="Avisos y ajustes"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+  </div>
+  <div>
+    <div class="muted" id="hoy-dia"></div>
+    <h1 id="hoy-fecha"></h1>
+  </div>
+  <div class="banner" id="hoy-ejemplo" hidden>
+    <span><strong>Esto es un ejemplo.</strong> Añade tu propia pauta para empezar.</span>
+    <button class="btn primary" type="button" data-go="pauta">Añadir mi pauta</button>
+  </div>
+  <div class="alarm" id="hoy-alarma" role="alert" hidden>Es la hora de tu Sintrom</div>
+  <div class="card" id="hoy-card">
+    <h2>Tu dosis de hoy</h2>
+    <img class="crop" id="hoy-crop" alt="Recorte de tu pauta para hoy">
+    <p class="muted small" id="hoy-fuera" hidden></p>
+    <p class="small muted">Aviso a las <span id="hoy-hora"></span></p>
+  </div>
+  <button class="btn primary" type="button" id="btn-tomada">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
+    <span id="btn-tomada-txt">Ya me la he tomado</span>
+  </button>
+  <button class="btn secondary" type="button" id="btn-deshacer" hidden>Me he equivocado, aún no</button>
+  <a class="btn secondary" id="btn-ayuda" target="_blank" rel="noopener">Pedir ayuda</a>
+  <div class="grid2">
+    <button class="tile" type="button" data-go="inr">
+      <span class="label">INR anterior</span>
+      <span class="value" id="t-inr">—</span>
+      <span class="sub" id="t-inr-fecha">Toca para apuntarlo</span>
+    </button>
+    <button class="tile warm" type="button" data-go="control">
+      <span class="label">Próximo control</span>
+      <span class="value" id="t-control">—</span>
+      <span class="sub" id="t-turno">Toca para apuntarlo</span>
+    </button>
+  </div>
+  <div class="row">
+    <button class="btn secondary" type="button" data-go="semana">Ver toda la pauta</button>
+    <button class="btn secondary" type="button" data-go="pauta">Cambiar pauta</button>
+  </div>
+  <p class="disclaimer">Esta app es solo un recordatorio. Ante cualquier duda, sigue la pauta de tu médico.</p>
+  <p class="disclaimer" id="version">Versión 7 · lectura automática de la pauta</p>
+</section>
+
+<!-- AÑADIR PAUTA -->
+<section class="screen" id="s-pauta" hidden>
+  <button class="back" type="button" data-go="hoy">‹ Volver</button>
+  <h1>Añade tu pauta</h1>
+  <p class="muted">La hoja que te dan en el control del Sintrom.</p>
+  <div class="btn primary huge picker">
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+    <span>Hacer foto</span>
+    <input id="in-foto" type="file" accept="image/*" aria-label="Hacer foto de la pauta">
+  </div>
+  <div class="btn secondary huge picker">
+    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M12 17v-6"/><path d="M9 13l3-3 3 3"/></svg>
+    <span>Subir archivo</span>
+    <span class="small">Foto o PDF</span>
+    <input id="in-archivo" type="file" accept="image/*,.pdf,application/pdf" aria-label="Subir foto o PDF de la pauta">
+  </div>
+  <div class="banner" id="pauta-ayuda">
+    <span><strong>Mejor en el navegador.</strong> Dentro de la app de Claude a veces no se pueden elegir archivos ni leer la hoja. Si falla, abre este enlace en Chrome o Safari:</span>
+    <a class="btn secondary" href="https://claude.ai/artifact/1TB92NwqsRXhUdJtWwMMhY" target="_blank" rel="noopener">Abrir en el navegador</a>
+  </div>
+  <p class="small" id="pauta-estado" role="status" aria-live="polite"></p>
+  <div class="card" id="pauta-manual" hidden>
+    <button class="btn primary" type="button" id="btn-releer">Leer otra vez</button>
+    <p class="small">Si sigue sin leerla, haz otra foto de la hoja entera, recta y con buena luz.</p>
+  </div>
+  <p class="disclaimer">La app lee sola los días y las fechas de tu hoja. Después te enseña cada día para que compruebes que coincide con el papel.</p>
+</section>
+
+<!-- REVISAR CADA DÍA -->
+<section class="screen" id="s-revisar" hidden>
+  <p class="muted small" id="rev-progreso"></p>
+  <h1 id="rev-fecha"></h1>
+  <p class="muted">¿Este trozo de tu hoja es el de este día?</p>
+  <img class="crop big" id="rev-crop" alt="Recorte de tu pauta para este día">
+  <button class="btn primary" type="button" id="btn-rev-si">Sí, coincide</button>
+  <button class="btn secondary" type="button" id="btn-rev-no">No coincide</button>
+  <div class="card" id="rev-fallo" hidden>
+    <p>Vale, entonces no nos fiamos de esta lectura.</p>
+    <button class="btn primary" type="button" id="btn-rev-repetir">Leer la hoja otra vez</button>
+    <button class="btn secondary" type="button" data-go="pauta">Hacer otra foto</button>
+    <a class="btn secondary" id="btn-rev-ayuda" target="_blank" rel="noopener">Pedir ayuda</a>
+  </div>
+  <p class="disclaimer">Compara cada día con tu hoja de papel. Solo cuando todos coincidan empezarán los avisos.</p>
+</section>
+
+<!-- CONFIRMAR -->
+<section class="screen" id="s-confirmar" hidden>
+  <h1>¿Está bien tu dosis de hoy?</h1>
+  <p class="muted">Compárala con tu hoja de papel.</p>
+  <img class="crop big" id="conf-crop" alt="Recorte de tu pauta para hoy">
+  <p class="muted small" id="conf-fuera" hidden></p>
+  <button class="btn primary" type="button" id="btn-conf-si">Sí, está bien</button>
+  <button class="btn secondary" type="button" id="btn-conf-no">No, subir otra foto</button>
+  <p class="disclaimer">Si no coincide, vuelve a subir la hoja para que la app la lea otra vez.</p>
+</section>
+
+<!-- AJUSTES (avisos, ayuda, recorte) -->
+<section class="screen" id="s-ajustes" hidden>
+  <button class="back" type="button" data-go="hoy">‹ Volver</button>
+  <h1>Avisos</h1>
+  <div class="field">
+    <label for="in-hora">Avisarme cada día a las</label>
+    <input id="in-hora" type="time">
+  </div>
+  <div class="card" id="card-gcal">
+    <h2>Alarma en el calendario del móvil</h2>
+    <p class="small">Crea un aviso diario en tu calendario para que suene aunque la app esté cerrada.</p>
+    <a class="btn primary" id="lnk-gcal-dosis" target="_blank" rel="noopener">Añadir a Google Calendar</a>
+    <p class="small muted">En iPhone: abre Reloj y crea una alarma diaria a esa hora.</p>
+  </div>
+  <p class="small muted" id="avisos-nativo" hidden>El móvil te avisará cada día a esa hora aunque la app esté cerrada. Si no la confirmas, te lo recordará otra vez a la media hora. También te avisará el día antes del control.</p>
+  <p class="small muted" id="avisos-web">Con la app abierta, a esa hora verás un aviso grande y sonará un pitido. Los avisos por WhatsApp y correo llegarán en la versión instalable.</p>
+
+  <h2>Quién te ayuda</h2>
+  <div class="row">
+    <div class="field"><label for="in-ayuda-nombre">Nombre</label><input id="in-ayuda-nombre" type="text" autocomplete="off" placeholder="Pablo"></div>
+    <div class="field"><label for="in-ayuda-tel">Su móvil</label><input id="in-ayuda-tel" type="tel" inputmode="tel" placeholder="600 000 000"></div>
+  </div>
+
+  <p class="disclaimer">Tus datos se guardan solo en este móvil.</p>
+</section>
+
+<!-- CONTROL -->
+<section class="screen" id="s-control" hidden>
+  <button class="back" type="button" data-go="hoy">‹ Volver</button>
+  <h1>Próximo control</h1>
+  <div class="row">
+    <div class="field"><label for="in-c-fecha">Día</label><input id="in-c-fecha" type="date"></div>
+    <div class="field"><label for="in-c-hora">Hora</label><input id="in-c-hora" type="time"></div>
+  </div>
+  <div class="row">
+    <div class="field"><label for="in-c-turno">Número de turno</label><input id="in-c-turno" type="text" inputmode="numeric"></div>
+    <div class="field"><label for="in-c-lugar">Lugar</label><input id="in-c-lugar" type="text" placeholder="Centro de salud"></div>
+  </div>
+  <a class="btn primary" id="lnk-gcal-control" target="_blank" rel="noopener">Añadir a Google Calendar</a>
+  <a class="btn secondary" id="lnk-acompanante" target="_blank" rel="noopener">Invitar a alguien por WhatsApp</a>
+  <p class="small muted">Le llega un mensaje con el día, la hora y el turno para que te acompañe.</p>
+</section>
+
+<!-- INR -->
+<section class="screen" id="s-inr" hidden>
+  <button class="back" type="button" data-go="hoy">‹ Volver</button>
+  <h1>Tu INR</h1>
+  <div class="row">
+    <div class="field"><label for="in-inr">Valor</label><input id="in-inr" type="text" inputmode="decimal" placeholder="2,5"></div>
+    <div class="field"><label for="in-inr-fecha">Fecha del control</label><input id="in-inr-fecha" type="date"></div>
+  </div>
+  <button class="btn primary" type="button" id="btn-inr-guardar">Guardar</button>
+  <div class="card" id="inr-historial-card" hidden>
+    <h2>Anteriores</h2>
+    <div id="inr-historial" class="small"></div>
+  </div>
+</section>
+
+<!-- SEMANA -->
+<section class="screen" id="s-semana" hidden>
+  <button class="back" type="button" data-go="hoy">‹ Volver</button>
+  <h1>Toda la pauta</h1>
+  <div class="week" id="semana-lista"></div>
+</section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+(function () {
+  const KEY = 'mi-sintrom-v1';
+  const $ = (id) => document.getElementById(id);
+  const pad = (n) => String(n).padStart(2, '0');
+  const iso = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  const parseIso = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+  const today = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+  const mondayOf = (d) => { const x = new Date(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; };
+  const fmtLargo = (d) => d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+  const fmtDia = (d) => { const s = d.toLocaleDateString('es-ES', { weekday: 'long' }); return s.charAt(0).toUpperCase() + s.slice(1); };
+  const fmtCorto = (d) => d.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+
+  // inside the installed app (Capacitor) reminders are scheduled with the phone
+  const nativo = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  const plugin = (n) => (nativo && window.Capacitor.Plugins ? window.Capacitor.Plugins[n] || null : null);
+  const LN = plugin('LocalNotifications'), Scanner = plugin('DocumentScanner'), OCR = plugin('TextRecognition'), FS = plugin('Filesystem');
+
+  // ---------- state ----------
+  let state = {
+    pauta: null,   // { img, rows, cols, m:{t,b,l,r}, start, confirmed, ejemplo }
+    hora: '20:00',
+    ayuda: { nombre: '', tel: '' },
+    inr: [],       // [{ valor, fecha }]
+    control: { fecha: '', hora: '', turno: '', lugar: '' },
+    tomas: {}      // { 'YYYY-MM-DD': 'HH:MM' }
+  };
+  try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
+  let save = function () { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+
+  // ---------- example pauta, drawn so the first view shows what the app does ----------
+  function samplePauta() {
+    const c = document.createElement('canvas'); c.width = 1400; c.height = 520;
+    const g = c.getContext('2d');
+    g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, c.width, c.height);
+    g.fillStyle = '#1B1F24'; g.font = 'bold 40px Verdana, sans-serif';
+    g.fillText('PAUTA DE SINTROM 4 mg  ·  EJEMPLO', 30, 70);
+    const top = 130, bottom = 500, left = 20, right = 1380, w = (right - left) / 7;
+    const dias = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
+    const dosis = ['1', '½', '1', '¾', '1', '½', '1'];
+    g.lineWidth = 4; g.strokeStyle = '#1B1F24';
+    for (let i = 0; i < 7; i++) {
+      const x = left + i * w;
+      g.strokeRect(x, top, w, bottom - top);
+      g.fillStyle = '#1B1F24'; g.fillRect(x, top, w, 56);
+      g.fillStyle = '#FFFFFF'; g.font = 'bold 24px Verdana, sans-serif'; g.textAlign = 'center';
+      g.fillText(dias[i], x + w / 2, top + 38);
+      g.fillStyle = '#1B1F24'; g.font = 'bold 120px "Comic Sans MS", "Bradley Hand", cursive';
+      g.fillText(dosis[i], x + w / 2, top + 230);
+    }
+    g.textAlign = 'left';
+    return {
+      img: c.toDataURL('image/jpeg', 0.85), rows: 1, cols: 7,
+      m: { t: (top / c.height) * 100, b: ((c.height - bottom) / c.height) * 100, l: (left / c.width) * 100, r: ((c.width - right) / c.width) * 100 },
+      start: iso(mondayOf(today())), confirmed: true, ejemplo: true
+    };
+  }
+  if (!state.pauta) state.pauta = samplePauta();
+
+  // ---------- cropping ----------
+  let imgEl = null, imgSrc = null;
+  const cropCache = new Map();
+  function loadImage() {
+    return new Promise((resolve) => {
+      if (imgEl && imgSrc === state.pauta.img) return resolve(imgEl);
+      const im = new Image();
+      im.onload = () => { imgEl = im; imgSrc = state.pauta.img; cropCache.clear(); resolve(im); };
+      im.onerror = () => resolve(null);
+      im.src = state.pauta.img;
+    });
+  }
+  // A "cell" is one day of the schedule: its date and its box on the sheet, in % of the image.
+  function cells() {
+    const p = state.pauta;
+    if (p.mode === 'auto') return p.days;
+    const out = [], start = parseIso(p.start);
+    const x0 = p.m.l, x1 = 100 - p.m.r, y0 = p.m.t, y1 = 100 - p.m.b;
+    const cw = (x1 - x0) / p.cols, ch = (y1 - y0) / p.rows;
+    for (let i = 0; i < p.rows * p.cols; i++) {
+      const d = new Date(start); d.setDate(d.getDate() + i);
+      out.push({ date: iso(d), x: x0 + (i % p.cols) * cw, y: y0 + Math.floor(i / p.cols) * ch, w: cw, h: ch });
+    }
+    return out;
+  }
+  function cellRect(im, cell) {
+    const W = im.naturalWidth, H = im.naturalHeight;
+    if (cell.rot) return { x: W * cell.x / 100, y: H * cell.y / 100, w: W * cell.w / 100, h: H * cell.h / 100 };
+    const pad = state.pauta.mode === 'auto' && !cell.exacta ? 1.5 : 0; // boxes guessed from a photo are approximate: keep a little extra around them
+    const x = Math.max(0, cell.x - pad), y = Math.max(0, cell.y - pad);
+    const x2 = Math.min(100, cell.x + cell.w + pad), y2 = Math.min(100, cell.y + cell.h + pad);
+    return { x: W * x / 100, y: H * y / 100, w: Math.max(1, W * (x2 - x) / 100), h: Math.max(1, H * (y2 - y) / 100) };
+  }
+  function cropUrl(im, cell) {
+    const k = [state.pauta.mode, cell.date, cell.x, cell.y, cell.w, cell.h, cell.rot || 0].join('|');
+    if (cropCache.has(k)) return cropCache.get(k);
+    const r = cellRect(im, cell);
+    const scale = Math.min(1, 900 / r.w);
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(r.w * scale)); c.height = Math.max(1, Math.round(r.h * scale));
+    const g = c.getContext('2d');
+    if (cell.rot) { // photo a little turned: crop along the sheet's own lines
+      g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, c.width, c.height);
+      g.scale(scale, scale); g.rotate(-cell.rot); g.translate(-r.x, -r.y); g.drawImage(im, 0, 0);
+    } else g.drawImage(im, r.x, r.y, r.w, r.h, 0, 0, c.width, c.height);
+    const url = c.toDataURL('image/jpeg', 0.9);
+    cropCache.set(k, url); return url;
+  }
+  function cellFor(dateIso) { return cells().find((c) => c.date === dateIso) || null; }
+
+  async function showCrop(imgId, outId) {
+    const im = await loadImage();
+    const all = cells(), cell = cellFor(iso(today()));
+    const img = $(imgId), out = $(outId);
+    if (!im || !cell) {
+      img.hidden = true; out.hidden = false;
+      const first = all.length ? all[0].date : null;
+      out.textContent = first && first > iso(today()) ? 'Tu pauta empieza el ' + fmtLargo(parseIso(first)) + '.' : 'Hoy no aparece en tu pauta. Si ya ha terminado, añade la nueva que te dieron en el control.';
+      return;
+    }
+    img.hidden = false; out.hidden = true;
+    img.src = cropUrl(im, cell);
+  }
+
+  // ---------- automatic reading: Claude finds each day's box and date on the sheet ----------
+  function dataUrlToBlob(url) {
+    const [head, b64] = url.split(','); const bin = atob(b64); const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return new Blob([arr], { type: head.slice(5, head.indexOf(';')) });
+  }
+  async function autoRead(imgDataUrl) {
+    const claudeApi = window.claude && typeof window.claude.use === 'function' ? window.claude : null;
+    const sample = claudeApi ? await claudeApi.use('sample') : null;
+    if (!sample) return { error: 'sin-claude' };
+    const caps = await sample.limits().catch(() => null);
+    if (!caps || !caps.images) return { error: 'sin-imagenes' };
+    const hoy = iso(today());
+    const prompt = 'La imagen es una foto de la hoja de control del Sintrom (acenocumarol) que da el hospital en España. Hoy es ' + hoy + '.\n' +
+      'La hoja tiene una tabla "DOSIS DIARIA DE ANTICOAGULANTE" con 7 columnas (LUNES a DOMINGO) y varias filas de semanas. Cada casilla lleva arriba a la izquierda una fecha corta como "25SEP" y debajo el dibujo de la pastilla. Una casilla puede decir "CONTROL" con la fecha de la próxima visita: esa no es un día de dosis.\n' +
+      'Devuelve la geometría de la tabla, sin la fila de cabecera de los días de la semana:\n' +
+      '- "x0","x1": borde izquierdo de la columna LUNES y borde derecho de la columna DOMINGO; "y0","y1": borde superior de la primera fila de semanas y borde inferior de la última. En porcentaje del ancho y del alto de la imagen (0 a 100, origen arriba a la izquierda).\n' +
+      '- "filas": número de filas de semanas.\n' +
+      '- "lunes": fecha YYYY-MM-DD que corresponde a la casilla de LUNES de la primera fila (aunque esté vacía). Deduce el año de la fecha de la visita que aparece en la hoja.\n' +
+      '- "desde" y "hasta": la primera y la última fecha YYYY-MM-DD que tienen pastilla dibujada.\n' +
+      'No transcribas las dosis. Responde solo con JSON: {"x0":0,"x1":0,"y0":0,"y1":0,"filas":0,"lunes":"YYYY-MM-DD","desde":"YYYY-MM-DD","hasta":"YYYY-MM-DD"}. ' +
+      'Si la imagen no tiene esa tabla, responde {"filas":0}.';
+    let res;
+    try { res = await sample.json(prompt, { images: dataUrlToBlob(imgDataUrl), modelTier: 'complex' }); }
+    catch (e) { return { error: (e && e.code) || 'fallo' }; }
+    const num = (n) => typeof n === 'number' && isFinite(n) && n >= 0 && n <= 100;
+    const fecha = (d) => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d);
+    if (!res || !num(res.x0) || !num(res.x1) || !num(res.y0) || !num(res.y1) || !(res.filas >= 1 && res.filas <= 8) ||
+        !fecha(res.lunes) || !fecha(res.desde) || !fecha(res.hasta) || res.x1 - res.x0 < 10 || res.y1 - res.y0 < 5) return { error: 'sin-casillas' };
+    const cw = (res.x1 - res.x0) / 7, ch = (res.y1 - res.y0) / res.filas, lunes = parseIso(res.lunes);
+    const days = [];
+    for (let i = 0; i < res.filas * 7; i++) {
+      const d = new Date(lunes); d.setDate(d.getDate() + i);
+      const k = iso(d);
+      if (k < res.desde || k > res.hasta) continue;
+      days.push({ date: k, x: res.x0 + (i % 7) * cw, y: res.y0 + Math.floor(i / 7) * ch, w: cw, h: ch });
+    }
+    return days.length ? { days } : { error: 'sin-casillas' };
+  }
+
+  // ---------- reading a photo or PDF into a downscaled image ----------
+  function downscale(source, w, h, max) {
+    max = max || 1800; const s = Math.min(1, max / Math.max(w, h));
+    const c = document.createElement('canvas'); c.width = Math.round(w * s); c.height = Math.round(h * s);
+    c.getContext('2d').drawImage(source, 0, 0, c.width, c.height);
+    return c.toDataURL('image/jpeg', 0.85);
+  }
+  function readImage(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const im = new Image();
+      im.onload = () => { const d = downscale(im, im.naturalWidth, im.naturalHeight); URL.revokeObjectURL(url); resolve(d); };
+      im.onerror = () => { URL.revokeObjectURL(url); reject(new Error('img')); };
+      im.src = url;
+    });
+  }
+  async function readPdf(file) {
+    if (!window.pdfjsLib) throw new Error('pdf');
+    try { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; } catch (e) {}
+    const data = new Uint8Array(await file.arrayBuffer());
+    const doc = await pdfjsLib.getDocument({ data }).promise;
+    const page = await doc.getPage(1);
+    const vp = page.getViewport({ scale: 4 });
+    const c = document.createElement('canvas'); c.width = vp.width; c.height = vp.height;
+    const g = c.getContext('2d'); g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, c.width, c.height);
+    await page.render({ canvasContext: g, viewport: vp }).promise;
+    let parsed = null;
+    try { parsed = parsePdfCalendar((await page.getTextContent()).items, vp); } catch (e) { parsed = null; }
+    return { img: downscale(c, c.width, c.height, 3200), parsed };
+  }
+
+  // Hospital sheets made by computer (like the GVA "Control de tratamiento anticoagulante") carry real text:
+  // weekday headers and day labels such as "25SEP". Their positions give each day's box exactly, with no guessing.
+  const MESES = { ENE: 1, FEB: 2, MAR: 3, ABR: 4, MAY: 5, JUN: 6, JUL: 7, AGO: 8, SEP: 9, SET: 9, OCT: 10, NOV: 11, DIC: 12 };
+  const DIAS_CAB = /^(LUNES|MARTES|MI[EÉ]RCOLES|JUEVES|VIERNES|S[AÁ]BADO|DOMINGO)$/;
+  function parsePdfCalendar(items, vp) {
+    const W = vp.width, H = vp.height;
+    const toks = items.filter((it) => it.str && it.str.trim()).map((it) => {
+      const t = pdfjsLib.Util.transform(vp.transform, it.transform);
+      const fh = Math.hypot(t[2], t[3]);
+      return { s: it.str.trim(), x: t[4], base: t[5], top: t[5] - fh, w: it.width * vp.scale, h: fh };
+    });
+    const full = toks.map((t) => t.s).join(' ').replace(/\s+/g, ' ');
+
+    // columns from the weekday header (the last header row on the page)
+    const heads = toks.filter((t) => DIAS_CAB.test(t.s.toUpperCase()));
+    if (heads.length < 7) return null;
+    const headRow = heads.slice(-7).sort((a, b) => a.x - b.x);
+    const centers = headRow.map((t) => t.x + t.w / 2);
+    const bounds = [];
+    for (let i = 0; i <= 7; i++) {
+      if (i === 0) bounds.push(centers[0] - (centers[1] - centers[0]) / 2);
+      else if (i === 7) bounds.push(centers[6] + (centers[6] - centers[5]) / 2);
+      else bounds.push((centers[i - 1] + centers[i]) / 2);
+    }
+    const headBottom = Math.max(...headRow.map((t) => t.base));
+
+    // reference date to give each "25SEP" its year: the visit date on the sheet, else today
+    const mv = full.match(/(\d{2})\/(\d{2})\/(\d{4})\s+\d{2}:\d{2}/);
+    const ref = mv ? new Date(+mv[3], +mv[2] - 1, +mv[1]) : today();
+
+    // day labels below the header; the "CONTROL 30 OCT" cell is not a dose day
+    const ctrl = toks.filter((t) => /^CONTROL$/i.test(t.s));
+    const labels = toks.filter((t) => t.base > headBottom && /^\d{1,2}\s?[A-Z]{3}$/i.test(t.s))
+      .filter((t) => !ctrl.some((c) => Math.abs(c.x - t.x) < 60 && t.top - c.top > 0 && t.top - c.top < 3 * c.h))
+      .map((t) => {
+        const m = t.s.toUpperCase().match(/^(\d{1,2})\s?([A-Z]{3})$/), mes = MESES[m[2]];
+        if (!mes) return null;
+        let best = null;
+        for (const y of [ref.getFullYear() - 1, ref.getFullYear(), ref.getFullYear() + 1]) {
+          const d = new Date(y, mes - 1, +m[1]);
+          if (!best || Math.abs(d - ref) < Math.abs(best - ref)) best = d;
+        }
+        return { t, date: iso(best) };
+      }).filter(Boolean);
+    if (labels.length < 3) return null;
+
+    // rows from the label tops; row height = typical gap between rows
+    const tops = [];
+    labels.map((l) => l.t.top).sort((a, b) => a - b).forEach((y) => { if (!tops.length || y - tops[tops.length - 1] > 5) tops.push(y); });
+    const gaps = tops.slice(1).map((y, i) => y - tops[i]).sort((a, b) => a - b);
+    const rowH = gaps.length ? gaps[Math.floor(gaps.length / 2)] : labels[0].t.h * 4;
+    const padTop = rowH * 0.1;
+
+    const seen = new Set();
+    const days = labels.map(({ t, date }) => {
+      const cx = t.x + 2;
+      let col = bounds.findIndex((b, i) => i < 7 && cx >= b && cx < bounds[i + 1]);
+      if (col < 0) col = cx < bounds[0] ? 0 : 6;
+      const y0 = t.top - padTop;
+      return { date, exacta: true, x: (bounds[col] / W) * 100, y: (y0 / H) * 100, w: ((bounds[col + 1] - bounds[col]) / W) * 100, h: (rowH / H) * 100 };
+    }).filter((d) => (seen.has(d.date) ? false : seen.add(d.date))).sort((a, b) => (a.date < b.date ? -1 : 1));
+
+    // extras printed on the sheet: next check-up and the INR of this visit
+    const extras = {};
+    const mc = full.match(/Pr[oó]xima Visita:\s*[^,]*,\s*(\d{2})\/(\d{2})\/(\d{4})(?:\s*Turno:\s*(\S+))?(?:\s*Num:\s*(\d+))?/i);
+    if (mc) {
+      extras.control = { fecha: mc[3] + '-' + mc[2] + '-' + mc[1], hora: '', turno: [mc[4], mc[5] ? 'nº ' + mc[5] : ''].filter(Boolean).join(', '), lugar: '' };
+      const ml = full.match(/Centro visita:\s*(.+?)\s*(Comentarios|$)/i);
+      if (ml) extras.control.lugar = ml[1].trim();
+    }
+    const mi = full.match(/DATOS DE LA VISITA.*?INR\.*:\s*([\d]+[,.]?\d*)/i);
+    if (mi && mv) extras.inr = { valor: mi[1].replace('.', ','), fecha: mv[3] + '-' + mv[2] + '-' + mv[1] };
+    return days.length ? { days, extras } : null;
+  }
+  // Photos of the paper sheet: on-device text recognition gives the day labels ("25SEP") and where they are.
+  // Labels sit on a grid (one column per weekday, one row per week), so a few well-read labels are enough to
+  // place every day of the sheet, also when the photo is a little turned. Labels that do not fit are ignored.
+  function leerEtiqueta(s) {
+    s = s.toUpperCase().replace(/[^0-9A-Z]/g, '');
+    if (s.length < 4 || s.length > 5) return null;
+    const d = s.slice(0, -3).replace(/[OQD]/g, '0').replace(/[IL|T]/g, '1').replace(/Z/g, '2').replace(/S/g, '5').replace(/B/g, '8').replace(/G/g, '6');
+    const m = s.slice(-3).replace(/0/g, 'O').replace(/1/g, 'I').replace(/5/g, 'S').replace(/8/g, 'B').replace(/€/g, 'E');
+    let mes = MESES[m];
+    if (!mes) { // one wrong letter, if only one month fits
+      const cerca = Object.keys(MESES).filter((k) => [0, 1, 2].filter((i) => k[i] !== m[i]).length === 1);
+      if (cerca.length === 1) mes = MESES[cerca[0]];
+    }
+    if (!mes || !/^\d{1,2}$/.test(d) || +d < 1 || +d > 31) return null;
+    return { dia: +d, mes };
+  }
+  function fechaCercana(dia, mes, ref) {
+    let best = null;
+    for (const y of [ref.getFullYear() - 1, ref.getFullYear(), ref.getFullYear() + 1]) {
+      const d = new Date(y, mes - 1, dia);
+      if (!best || Math.abs(d - ref) < Math.abs(best - ref)) best = d;
+    }
+    return best;
+  }
+  const mediana = (a) => { if (!a.length) return NaN; const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
+  function parseFotoCalendar(ocr, W, H) {
+    const words = [];
+    const full = (ocr.text || '').replace(/\s+/g, ' ');
+    (ocr.blocks || []).forEach((b) => (b.lines || []).forEach((l) => (l.elements || []).forEach((e) => {
+      const r = e.boundingBox; if (!r || !e.text) return;
+      words.push({ s: e.text.trim(), x: r.left, y: r.top, w: r.right - r.left, h: r.bottom - r.top });
+    })));
+    const mv = full.match(/(\d{2})\/(\d{2})\/(\d{4})\s+\d{2}:\d{2}/);
+    const ref = mv ? new Date(+mv[3], +mv[2] - 1, +mv[1]) : today();
+
+    // "25 SEP" may come as two words
+    const toks = words.slice();
+    words.forEach((a) => {
+      if (!/^[0-9OIlTZS]{1,2}$/i.test(a.s)) return;
+      const b = words.find((o) => o !== a && o.s.length === 3 && o.x > a.x && o.x - (a.x + a.w) < a.h * 1.2 && Math.abs(o.y - a.y) < a.h * 0.6);
+      if (b) toks.push({ s: a.s + b.s, x: a.x, y: Math.min(a.y, b.y), w: b.x + b.w - a.x, h: Math.max(a.h, b.h) });
+    });
+    const ctrl = words.filter((t) => /^CONTROL$/i.test(t.s));
+    const labels = toks.map((t) => {
+      const e = leerEtiqueta(t.s); if (!e) return null;
+      if (ctrl.some((c) => Math.abs(c.x - t.x) < c.w && t.y > c.y && t.y - c.y < 3 * c.h)) return null;
+      const d = fechaCercana(e.dia, e.mes, ref);
+      return { d, x: t.x, y: t.y, h: t.h };
+    }).filter(Boolean);
+    if (labels.length < 4) return null;
+
+    // grid steps: u = one column to the right, v = one week down
+    const lunes0 = mondayOf(new Date(Math.min(...labels.map((l) => l.d))));
+    labels.forEach((l) => { l.col = (l.d.getDay() + 6) % 7; l.fila = Math.round((mondayOf(l.d) - lunes0) / 6048e5); });
+    const ux = [], uy = [], vx = [], vy = [];
+    labels.forEach((a) => labels.forEach((b) => {
+      if (a === b) return;
+      if (a.fila === b.fila && b.col > a.col) { const k = b.col - a.col; ux.push((b.x - a.x) / k); uy.push((b.y - a.y) / k); }
+      if (a.col === b.col && b.fila > a.fila) { const k = b.fila - a.fila; vx.push((b.x - a.x) / k); vy.push((b.y - a.y) / k); }
+    }));
+    const u = { x: mediana(ux), y: mediana(uy) }, v = { x: mediana(vx), y: mediana(vy) };
+    const lu = Math.hypot(u.x, u.y), lv = Math.hypot(v.x, v.y);
+    if (!(lu > W * 0.04) || !(lv > lu * 0.2)) return null;
+    const ox = mediana(labels.map((l) => l.x - l.col * u.x - l.fila * v.x));
+    const oy = mediana(labels.map((l) => l.y - l.col * u.y - l.fila * v.y));
+    const donde = (col, fila) => ({ x: ox + col * u.x + fila * v.x, y: oy + col * u.y + fila * v.y });
+    const buenas = labels.filter((l) => { const p = donde(l.col, l.fila); return Math.hypot(l.x - p.x, l.y - p.y) < 0.3 * Math.min(lu, lv); });
+    if (buenas.length < 4) return null;
+
+    const desde = new Date(Math.min(...buenas.map((l) => l.d))), hasta = new Date(Math.max(...buenas.map((l) => l.d)));
+    if ((hasta - desde) / 864e5 > 70) return null;
+    const extras = leerExtras(full, mv);
+    // the calendar starts on the visit day and ends the day before the next check-up
+    if (mv && ref < desde && desde - ref <= 14 * 864e5) desde.setTime(ref.getTime());
+    if (extras.control) { const fin = parseIso(extras.control.fecha); fin.setDate(fin.getDate() - 1); if (fin > hasta && fin - hasta <= 14 * 864e5) hasta.setTime(fin.getTime()); }
+    const rot = Math.atan2(u.y, u.x);
+    const days = [];
+    for (const d = new Date(desde); d <= hasta; d.setDate(d.getDate() + 1)) {
+      const col = (d.getDay() + 6) % 7, fila = Math.round((mondayOf(d) - lunes0) / 6048e5);
+      const leida = buenas.find((l) => l.col === col && l.fila === fila);
+      const p = leida || donde(col, fila);
+      // the label sits just inside the top-left corner of its box
+      const cx = p.x - 0.1 * u.x - 0.14 * v.x, cy = p.y - 0.1 * u.y - 0.14 * v.y;
+      days.push({ date: iso(d), exacta: true, rot, x: (cx / W) * 100, y: (cy / H) * 100, w: (lu * 1.02 / W) * 100, h: (lv * 1.02 / H) * 100 });
+    }
+
+    return { days, extras, leidas: buenas.length, u, v, lunes0, ox, oy, W, H };
+  }
+  function leerExtras(full, mv) {
+    const extras = {};
+    const mc = full.match(/Pr[oó]xima Visita:?[\s\S]{0,40}?(\d{2})\/(\d{2})\/(\d{4})(?:\s*Turno:?\s*(\S+))?(?:\s*Num:?\s*(\d+))?/i);
+    if (mc) {
+      extras.control = { fecha: mc[3] + '-' + mc[2] + '-' + mc[1], hora: '', turno: [mc[4], mc[5] ? 'nº ' + mc[5] : ''].filter(Boolean).join(', '), lugar: '' };
+      const ml = full.match(/Centro visita:?\s*(.+?)\s*(Comentarios|$)/i);
+      if (ml) extras.control.lugar = ml[1].trim();
+    }
+    const mi = full.match(/DATOS DE LA VISITA[\s\S]*?INR\.*:?[\s\S]{0,30}?(\d[,.]\d)/i);
+    if (mi && mv) extras.inr = { valor: mi[1].replace('.', ','), fecha: mv[3] + '-' + mv[2] + '-' + mv[1] };
+    return extras;
+  }
+  // Days at the start whose label was not read: keep them when their box has a pill drawn in it (dark ink).
+  function tinta(im, cell) {
+    const r = cellRect(im, cell), c = document.createElement('canvas'); c.width = 60; c.height = 40;
+    const g = c.getContext('2d');
+    g.save(); g.scale(60 / r.w, 40 / r.h); if (cell.rot) g.rotate(-cell.rot); g.translate(-r.x, -r.y); g.drawImage(im, 0, 0); g.restore();
+    const px = g.getImageData(9, 6, 42, 28).data; let n = 0;
+    for (let i = 0; i < px.length; i += 4) if (px[i] * 0.3 + px[i + 1] * 0.59 + px[i + 2] * 0.11 < 110) n++;
+    return n / (px.length / 4);
+  }
+  function completarPorTinta(im, parsed) {
+    const ref = mediana(parsed.days.slice(0, 7).map((d) => tinta(im, d)));
+    if (!(ref > 0.02)) return parsed;
+    const plantilla = parsed.days[0], base = parseIso(plantilla.date), d = new Date(base);
+    const { u, v } = parsed;
+    for (let i = 1; i <= 6; i++) {
+      d.setDate(d.getDate() - 1);
+      const dc = (base.getDay() + 6) % 7 - (d.getDay() + 6) % 7, df = Math.round((mondayOf(base) - mondayOf(d)) / 6048e5);
+      const cx = (plantilla.x / 100) * parsed.W - dc * u.x - df * v.x, cy = (plantilla.y / 100) * parsed.H - dc * u.y - df * v.y;
+      const cell = Object.assign({}, plantilla, { date: iso(d), x: (cx / parsed.W) * 100, y: (cy / parsed.H) * 100 });
+      if (cell.x < 0 || cell.y < 0 || tinta(im, cell) < ref * 0.35) break;
+      parsed.days.unshift(cell);
+    }
+    return parsed;
+  }
+
+  let pendingImg = null;
+
+  // ---------- installed app: photos are read on the phone itself ----------
+  function guardarFoto(file) {
+    return new Promise((ok, ko) => {
+      const fr = new FileReader();
+      fr.onload = () => FS.writeFile({ path: 'pauta-foto-' + Date.now() + '.jpg', data: String(fr.result).split(',')[1], directory: 'CACHE' }).then((w) => ok(w.uri), ko);
+      fr.onerror = ko; fr.readAsDataURL(file);
+    });
+  }
+  async function leerFotoNativa(uri) {
+    const estado = $('pauta-estado');
+    go('pauta');
+    estado.textContent = 'Leyendo los días de tu hoja…';
+    try {
+      const im = await new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = window.Capacitor.convertFileSrc(uri); });
+      const ocr = await OCR.processImage({ path: uri });
+      let parsed = parseFotoCalendar(ocr, im.naturalWidth, im.naturalHeight);
+      if (parsed) parsed = completarPorTinta(im, parsed);
+      const img = downscale(im, im.naturalWidth, im.naturalHeight, 3200);
+      pendingImg = img;
+      if (parsed && parsed.days.length) { usarLectura(img, parsed.days, parsed.extras); return; }
+      estado.textContent = 'No he podido leer los días en la foto. Haz otra foto con la hoja entera, recta y con buena luz.';
+    } catch (e) {
+      console.warn('foto', e);
+      estado.textContent = 'No he podido leer la foto. Prueba otra vez.';
+    }
+  }
+  if (Scanner) {
+    // the phone's document scanner finds the sheet's edges and straightens it before reading
+    $('in-foto').addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        const r = await Scanner.scanDocument({ galleryImportAllowed: true, pageLimit: 1, resultFormats: 'JPEG', scannerMode: 'FULL' });
+        if (r.scannedImages && r.scannedImages[0]) leerFotoNativa(r.scannedImages[0]);
+      } catch (err) {
+        if (!/cancel/i.test(String(err && err.message))) $('pauta-estado').textContent = 'No se ha podido abrir la cámara. Prueba con "Subir archivo".';
+      }
+    });
+  }
+  async function onFile(ev) {
+    const file = ev.target.files && ev.target.files[0];
+    ev.target.value = '';
+    if (!file) return;
+    const estado = $('pauta-estado');
+    $('pauta-manual').hidden = true;
+    estado.textContent = 'Abriendo tu pauta…';
+    let img, parsed = null;
+    try {
+      const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+      if (isPdf) { const r = await readPdf(file); img = r.img; parsed = r.parsed; }
+      else if (OCR && FS) { leerFotoNativa(await guardarFoto(file)); return; }
+      else img = await readImage(file);
+    } catch (e) {
+      estado.textContent = 'No he podido abrir ese archivo. Prueba con una foto de la hoja.';
+      return;
+    }
+    pendingImg = img;
+    if (parsed) { usarLectura(img, parsed.days, parsed.extras); return; }
+    await leerAuto(img);
+  }
+  function usarLectura(img, days, extras) {
+    // days already past do not need checking: start the review at today
+    const desdeHoy = days.findIndex((d) => d.date >= iso(today()));
+    state.pauta = { img, mode: 'auto', days, revisado: desdeHoy < 0 ? 0 : desdeHoy, confirmed: false, ejemplo: false };
+    if (extras && extras.control) state.control = extras.control;
+    if (extras && extras.inr && !state.inr.some((r) => r.fecha === extras.inr.fecha)) state.inr.push(extras.inr);
+    cropCache.clear(); save();
+    $('pauta-estado').textContent = '';
+    go('revisar');
+  }
+  async function leerAuto(img) {
+    const estado = $('pauta-estado');
+    go('pauta');
+    estado.textContent = 'Leyendo los días y las fechas de tu hoja. Puede tardar un minuto…';
+    let r;
+    try { r = await autoRead(img); } catch (e) { r = { error: 'fallo' }; }
+    if (r.days) {
+      usarLectura(img, r.days, null);
+    } else {
+      const motivos = {
+        'sin-claude': nativo ? 'En la app instalada solo se pueden leer las hojas en PDF del hospital. Sube el PDF que te dieron.' : 'La lectura automática no funciona dentro de la app de Claude del móvil. Abre el enlace en Chrome o Safari (botón de arriba) y vuelve a subir la hoja.',
+        'sin-imagenes': 'Aquí no se pueden enviar fotos para leerlas. Abre el enlace en Chrome o Safari (botón de arriba) y vuelve a subir la hoja.',
+        'not_granted': 'Para leer la hoja necesito tu permiso. Pulsa "Leer otra vez" y después "Permitir".',
+        'rate_limited': 'Ahora mismo hay demasiadas lecturas. Espera un minuto y pulsa "Leer otra vez".',
+        'sin-casillas': 'No he encontrado las casillas de los días en la foto. Prueba con una foto más recta y con buena luz.'
+      };
+      estado.textContent = motivos[r.error] || 'No he podido leer la hoja. Pulsa "Leer otra vez" o prueba con otra foto.';
+      $('pauta-manual').hidden = false;
+    }
+  }
+
+  // ---------- review each day once, at the start ----------
+  async function renderRevisar() {
+    const all = cells(), i = state.pauta.revisado || 0;
+    $('rev-fallo').hidden = true;
+    $('btn-rev-si').hidden = $('btn-rev-no').hidden = false;
+    if (i >= all.length) { state.pauta.confirmed = true; save(); go('hoy'); return; }
+    const cell = all[i], d = parseIso(cell.date);
+    const inicio = Math.max(0, all.findIndex((d) => d.date >= iso(today())));
+    $('rev-progreso').textContent = 'Día ' + (i - inicio + 1) + ' de ' + (all.length - inicio);
+    $('rev-fecha').textContent = fmtDia(d) + ' ' + fmtLargo(d);
+    const im = await loadImage();
+    if (im) $('rev-crop').src = cropUrl(im, cell);
+    $('btn-rev-ayuda').href = waLink(state.ayuda.tel, 'Hola, ¿me ayudas a comprobar mi pauta de Sintrom en la app?');
+  }
+
+  // ---------- links ----------
+  const gcalDate = (dateIso, hhmm, plusMin) => {
+    const [y, mo, d] = dateIso.split('-').map(Number); const [h, mi] = hhmm.split(':').map(Number);
+    const t = new Date(y, mo - 1, d, h, mi + (plusMin || 0));
+    return t.getFullYear() + pad(t.getMonth() + 1) + pad(t.getDate()) + 'T' + pad(t.getHours()) + pad(t.getMinutes()) + '00';
+  };
+  function gcalLink(title, dateIso, hhmm, details, daily) {
+    const u = new URL('https://calendar.google.com/calendar/render');
+    u.searchParams.set('action', 'TEMPLATE');
+    u.searchParams.set('text', title);
+    u.searchParams.set('dates', gcalDate(dateIso, hhmm) + '/' + gcalDate(dateIso, hhmm, 15));
+    u.searchParams.set('ctz', 'Europe/Madrid');
+    u.searchParams.set('details', details);
+    if (daily) u.searchParams.set('recur', 'RRULE:FREQ=DAILY');
+    return u.toString();
+  }
+  function waLink(tel, text) {
+    let n = (tel || '').replace(/\D/g, '');
+    if (n.length === 9) n = '34' + n;
+    return 'https://wa.me/' + n + '?text=' + encodeURIComponent(text);
+  }
+  function controlTexto() {
+    const c = state.control;
+    if (!c.fecha) return '';
+    return fmtDia(parseIso(c.fecha)) + ' ' + fmtLargo(parseIso(c.fecha)) + (c.hora ? ' a las ' + c.hora : '') + (c.turno ? ', turno ' + c.turno : '') + (c.lugar ? ', en ' + c.lugar : '');
+  }
+
+  // ---------- rendering ----------
+  function renderHoy() {
+    const d = today(), k = iso(d);
+    $('hoy-dia').textContent = fmtDia(d);
+    $('hoy-fecha').textContent = fmtLargo(d);
+    $('hoy-hora').textContent = state.hora;
+    $('hoy-ejemplo').hidden = !state.pauta.ejemplo;
+    showCrop('hoy-crop', 'hoy-fuera');
+    const t = state.tomas[k];
+    $('btn-tomada').classList.toggle('primary', !t);
+    $('btn-tomada').classList.toggle('done', !!t);
+    $('btn-tomada-txt').textContent = t ? 'Tomada hoy a las ' + t : 'Ya me la he tomado';
+    $('btn-deshacer').hidden = !t;
+    const nombre = state.ayuda.nombre ? state.ayuda.nombre : 'alguien';
+    $('btn-ayuda').textContent = state.ayuda.tel ? 'Pedir ayuda a ' + nombre : 'Pedir ayuda';
+    $('btn-ayuda').href = waLink(state.ayuda.tel, 'Hola, necesito ayuda con mi dosis de Sintrom de hoy.');
+    const last = state.inr[state.inr.length - 1];
+    $('t-inr').textContent = last ? last.valor : '—';
+    $('t-inr-fecha').textContent = last && last.fecha ? fmtLargo(parseIso(last.fecha)) : 'Toca para apuntarlo';
+    const c = state.control;
+    $('t-control').textContent = c.fecha ? fmtLargo(parseIso(c.fecha)) + (c.hora ? ', ' + c.hora : '') : '—';
+    $('t-turno').textContent = c.turno ? 'Turno ' + c.turno : (c.fecha ? '' : 'Toca para apuntarlo');
+    checkAlarm();
+  }
+  function renderAjustes() {
+    $('in-hora').value = state.hora;
+    $('in-ayuda-nombre').value = state.ayuda.nombre; $('in-ayuda-tel').value = state.ayuda.tel;
+    $('lnk-gcal-dosis').href = gcalLink('Tomar el Sintrom', iso(today()), state.hora, 'Abre Mi Sintrom para ver tu dosis de hoy.', true);
+  }
+  function renderControl() {
+    const c = state.control;
+    $('in-c-fecha').value = c.fecha; $('in-c-hora').value = c.hora; $('in-c-turno').value = c.turno; $('in-c-lugar').value = c.lugar;
+    const ok = !!c.fecha;
+    const g = $('lnk-gcal-control'), w = $('lnk-acompanante');
+    g.toggleAttribute('aria-disabled', !ok); w.toggleAttribute('aria-disabled', !ok);
+    g.style.opacity = w.style.opacity = ok ? '1' : '0.5';
+    g.href = ok ? gcalLink('Control del Sintrom' + (c.turno ? ' (turno ' + c.turno + ')' : ''), c.fecha, c.hora || '09:00', controlTexto(), false) : '#';
+    w.href = ok ? waLink('', '¡Hola! ¿Me acompañas al control del Sintrom? Es el ' + controlTexto() + '.') : '#';
+  }
+  function renderInr() {
+    $('in-inr').value = ''; $('in-inr-fecha').value = state.control.fecha && parseIso(state.control.fecha) <= today() ? state.control.fecha : iso(today());
+    const list = state.inr.slice().reverse();
+    $('inr-historial-card').hidden = list.length === 0;
+    const box = $('inr-historial'); box.textContent = '';
+    list.forEach((r) => { const p = document.createElement('p'); p.textContent = (r.fecha ? fmtLargo(parseIso(r.fecha)) : '') + ': ' + r.valor; box.appendChild(p); });
+  }
+  async function renderSemana() {
+    const im = await loadImage(); const box = $('semana-lista'); box.textContent = '';
+    if (!im) return;
+    const hoy = iso(today());
+    cells().forEach((cell) => {
+      const d = parseIso(cell.date), esHoy = cell.date === hoy;
+      const el = document.createElement('div'); el.className = 'day' + (esHoy ? ' today' : '');
+      const label = document.createElement('strong'); label.textContent = (esHoy ? 'Hoy · ' : '') + fmtCorto(d);
+      const img = document.createElement('img'); img.alt = 'Dosis del ' + fmtCorto(d); img.src = cropUrl(im, cell);
+      el.appendChild(label); el.appendChild(img); box.appendChild(el);
+    });
+  }
+
+  const renders = { hoy: renderHoy, ajustes: renderAjustes, control: renderControl, inr: renderInr, semana: renderSemana,
+    revisar: renderRevisar,
+    confirmar: () => showCrop('conf-crop', 'conf-fuera'),
+    pauta: () => { $('pauta-manual').hidden = true; $('pauta-estado').textContent = ''; } };
+  function go(name) {
+    document.querySelectorAll('.screen').forEach((s) => { s.hidden = s.id !== 's-' + name; });
+    if (renders[name]) renders[name]();
+    window.scrollTo(0, 0);
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-go]'); if (b) { e.preventDefault(); go(b.dataset.go); }
+    const a = e.target.closest('a[aria-disabled]'); if (a) e.preventDefault();
+  });
+
+  // ---------- actions ----------
+  $('in-foto').addEventListener('change', onFile);
+  $('in-archivo').addEventListener('change', onFile);
+  $('btn-releer').addEventListener('click', () => { if (pendingImg) leerAuto(pendingImg); });
+  $('btn-rev-si').addEventListener('click', () => { state.pauta.revisado = (state.pauta.revisado || 0) + 1; save(); renderRevisar(); window.scrollTo(0, 0); });
+  $('btn-rev-no').addEventListener('click', () => { $('rev-fallo').hidden = false; $('btn-rev-si').hidden = $('btn-rev-no').hidden = true; });
+  $('btn-rev-repetir').addEventListener('click', () => (nativo ? go('pauta') : leerAuto(state.pauta.img)));
+  $('btn-conf-si').addEventListener('click', () => { state.pauta.confirmed = true; save(); go('hoy'); });
+  $('btn-conf-no').addEventListener('click', () => go('pauta'));
+  $('btn-tomada').addEventListener('click', () => {
+    const k = iso(today()); if (state.tomas[k]) return;
+    const n = new Date(); state.tomas[k] = pad(n.getHours()) + ':' + pad(n.getMinutes()); save(); stopBeep(); renderHoy();
+  });
+  $('btn-deshacer').addEventListener('click', () => { delete state.tomas[iso(today())]; save(); renderHoy(); });
+  $('in-hora').addEventListener('change', () => { if ($('in-hora').value) { state.hora = $('in-hora').value; save(); renderAjustes(); } });
+  $('in-ayuda-nombre').addEventListener('input', () => { state.ayuda.nombre = $('in-ayuda-nombre').value.trim(); save(); });
+  $('in-ayuda-tel').addEventListener('input', () => { state.ayuda.tel = $('in-ayuda-tel').value.trim(); save(); });
+  ['in-c-fecha', 'in-c-hora', 'in-c-turno', 'in-c-lugar'].forEach((id) => $(id).addEventListener('input', () => {
+    state.control = { fecha: $('in-c-fecha').value, hora: $('in-c-hora').value, turno: $('in-c-turno').value.trim(), lugar: $('in-c-lugar').value.trim() };
+    save(); renderControl();
+  }));
+  $('btn-inr-guardar').addEventListener('click', () => {
+    const v = $('in-inr').value.trim(); if (!v) { $('in-inr').focus(); return; }
+    state.inr.push({ valor: v.replace('.', ','), fecha: $('in-inr-fecha').value }); save(); go('hoy');
+  });
+
+  // ---------- in-app alarm while the page is open ----------
+  let audio = null, beeping = null;
+  document.addEventListener('pointerdown', () => { try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }, { once: true });
+  function beep() {
+    if (!audio) return;
+    try { const o = audio.createOscillator(), g = audio.createGain(); o.frequency.value = 880; o.connect(g); g.connect(audio.destination);
+      g.gain.setValueAtTime(0.3, audio.currentTime); g.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.6); o.start(); o.stop(audio.currentTime + 0.6); } catch (e) {}
+  }
+  function stopBeep() { if (beeping) { clearInterval(beeping); beeping = null; } $('hoy-alarma').hidden = true; }
+  function checkAlarm() {
+    const n = new Date(), k = iso(n), [h, m] = state.hora.split(':').map(Number);
+    const due = !state.tomas[k] && (n.getHours() * 60 + n.getMinutes()) >= h * 60 + m && !state.pauta.ejemplo;
+    $('hoy-alarma').hidden = !due;
+    if (due && !beeping) { beep(); let c = 0; beeping = setInterval(() => { if (++c > 5) { clearInterval(beeping); return; } beep(); }, 3000); }
+    if (!due) stopBeep();
+  }
+  setInterval(() => { if (!$('s-hoy').hidden) checkAlarm(); }, 30000);
+
+  // ---------- installed app: reminders that ring with the app closed ----------
+  const DIAS_AVISO = 40;
+  async function programarAvisos() {
+    if (!LN) return;
+    try {
+      const perm = await LN.requestPermissions();
+      if (perm.display !== 'granted') return;
+      const pend = await LN.getPending();
+      if (pend.notifications.length) await LN.cancel({ notifications: pend.notifications.map((n) => ({ id: n.id })) });
+      const p = state.pauta;
+      if (!p || p.ejemplo || !p.confirmed) return;
+      const fechas = new Set(cells().map((c) => c.date));
+      const ultima = [...fechas].sort().pop();
+      const [h, m] = state.hora.split(':').map(Number);
+      const ahora = new Date(), lista = [];
+      for (let i = 0; i < DIAS_AVISO; i++) {
+        const d = today(); d.setDate(d.getDate() + i);
+        const k = iso(d);
+        if (!fechas.has(k) || state.tomas[k]) continue;
+        const at = new Date(d); at.setHours(h, m, 0, 0);
+        const at2 = new Date(at.getTime() + 30 * 60000);
+        if (at > ahora) lista.push({ id: 1000 + i, title: 'Hora del Sintrom', body: 'Abre Mi Sintrom para ver tu dosis de hoy.', schedule: { at, allowWhileIdle: true }, channelId: 'dosis' });
+        if (at2 > ahora) lista.push({ id: 2000 + i, title: '¿Te has tomado el Sintrom?', body: 'Todavía no lo has confirmado. Abre Mi Sintrom.', schedule: { at: at2, allowWhileIdle: true }, channelId: 'dosis' });
+      }
+      const c = state.control;
+      if (c.fecha) {
+        const antes = parseIso(c.fecha); antes.setDate(antes.getDate() - 1); antes.setHours(12, 0, 0, 0);
+        const dia = parseIso(c.fecha); dia.setHours(7, 30, 0, 0);
+        if (antes > ahora) lista.push({ id: 3001, title: 'Mañana tienes control del Sintrom', body: controlTexto(), schedule: { at: antes, allowWhileIdle: true }, channelId: 'dosis' });
+        if (dia > ahora) lista.push({ id: 3002, title: 'Hoy tienes control del Sintrom', body: controlTexto(), schedule: { at: dia, allowWhileIdle: true }, channelId: 'dosis' });
+      }
+      if (ultima) {
+        const fin = parseIso(ultima); fin.setDate(fin.getDate() + 1); fin.setHours(10, 0, 0, 0);
+        if (fin > ahora) lista.push({ id: 3003, title: 'Tu pauta se ha terminado', body: 'Sube en Mi Sintrom la hoja nueva que te dieron en el control.', schedule: { at: fin, allowWhileIdle: true }, channelId: 'dosis' });
+      }
+      if (lista.length) await LN.schedule({ notifications: lista });
+    } catch (e) { console.warn('avisos', e); }
+  }
+  if (LN) {
+    try { LN.createChannel({ id: 'dosis', name: 'Recordatorio del Sintrom', importance: 5, vibration: true, visibility: 1 }); } catch (e) {}
+    document.body.classList.add('nativo');
+    $('card-gcal').hidden = true; $('pauta-ayuda').hidden = true;
+    $('avisos-nativo').hidden = false; $('avisos-web').hidden = true;
+    $('version').textContent = 'Versión 7 · app instalada';
+    const _save = save;
+    save = function () { _save(); clearTimeout(save.t); save.t = setTimeout(programarAvisos, 400); };
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { if (!$('s-hoy').hidden) renderHoy(); programarAvisos(); } });
+    programarAvisos();
+  }
+
+  go(state.pauta.confirmed ? 'hoy' : state.pauta.mode === 'auto' ? 'revisar' : 'confirmar');
+})();
+</script>

@@ -1,0 +1,24 @@
+{
+  "name": "mi-sintrom",
+  "version": "0.7.0",
+  "description": "Recordatorio de Sintrom con la foto de tu pauta",
+  "scripts": {
+    "build": "node scripts/build-www.mjs",
+    "sync": "npm run build && npx cap sync android"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor-mlkit/document-scanner": "^8.2.1",
+    "@capacitor-mlkit/text-recognition": "^8.2.1",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/local-notifications": "^8.3.1",
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "pdfjs-dist": "^3.11.174"
+  },
+  "private": true
+}

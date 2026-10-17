@@ -1,0 +1,39 @@
+name: App Android
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm run sync
+      - name: Build APK
+        working-directory: android
+        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk MiSintrom.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MiSintrom-apk
+          path: MiSintrom.apk
+      - name: Publish download link
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete ultima --yes --cleanup-tag || true
+          gh release create ultima MiSintrom.apk --title "Mi Sintrom (última versión)" --notes "Abre este enlace desde el móvil Android y toca MiSintrom.apk para instalar."
