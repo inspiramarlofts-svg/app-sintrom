@@ -7,7 +7,7 @@ android {
         applicationId "es.inspiramar.mipauta"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
+        versionCode((System.getenv("GITHUB_RUN_NUMBER") ?: "0").toInteger() + 100)
         versionName "0.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
@@ -29,7 +29,10 @@ android {
         debug {
             signingConfig signingConfigs.prueba
         }
+        // Google Play bundle for internal testing, signed with the test key as upload key.
+        // Play App Signing re-signs it for users; the upload key can be reset in Play Console before going public.
         release {
+            signingConfig signingConfigs.prueba
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

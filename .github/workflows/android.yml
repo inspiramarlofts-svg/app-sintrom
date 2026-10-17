@@ -25,15 +25,19 @@ jobs:
       - run: npm run sync
       - name: Build APK
         working-directory: android
-        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
-      - run: cp android/app/build/outputs/apk/debug/app-debug.apk MiPauta.apk
+        run: chmod +x gradlew && ./gradlew assembleDebug bundleRelease --no-daemon
+      - run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk MiPauta.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab MiPauta-play.aab
       - uses: actions/upload-artifact@v4
         with:
           name: MiPauta-apk
-          path: MiPauta.apk
+          path: |
+            MiPauta.apk
+            MiPauta-play.aab
       - name: Publish download link
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete ultima --yes --cleanup-tag || true
-          gh release create ultima MiPauta.apk --title "MiPauta (última versión)" --notes "Abre este enlace desde el móvil Android y toca MiPauta.apk para instalar."
+          gh release create ultima MiPauta.apk MiPauta-play.aab --title "MiPauta (última versión)" --notes "Abre este enlace desde el móvil Android y toca MiPauta.apk para instalar. MiPauta-play.aab es el archivo para subir a Google Play."
