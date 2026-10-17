@@ -15,3 +15,7 @@ Esta app es solo un recordatorio. Ante cualquier duda, sigue la pauta de tu méd
 - [Política de privacidad](legal/privacidad.md) (enlace para Google Play)
 
 Los datos del titular se rellenan en `TITULAR` dentro de `src/app.html` y en estos dos archivos.
+
+## Farmacia patrocinadora
+
+Para la versión de una farmacia, copia `farmacia.ejemplo.json` como `farmacia.json` y rellena sus datos (el logo puede ser una imagen en `data:`). Sin `farmacia.json` la app solo muestra los botones de la farmacia más cercana y la de guardia.

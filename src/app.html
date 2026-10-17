@@ -71,6 +71,12 @@ button.link { font: inherit; background: none; border: none; padding: 0; color: 
 .legal h2 { font-size: 20px; margin-top: 8px; }
 .legal p, .legal li { font-size: 17px; line-height: 1.5; }
 .legal ul { padding-left: 22px; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.farmacia { border-top: 2px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.farmacia-tag { margin: 0; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.farmacia-cab { display: flex; align-items: center; gap: 12px; }
+.farmacia-cab img { width: 56px; height: 56px; object-fit: contain; border-radius: 12px; background: #FFFFFF; }
+.farmacia-cab div { display: flex; flex-direction: column; }
+.farmacia .row .btn { flex: 1 1 0; min-width: 0; }
 .big-num { font-size: 40px; font-weight: 700; line-height: 1.1; margin: 0; }
 .his-lista { display: flex; flex-direction: column; gap: 8px; }
 .his-dia { display: flex; align-items: center; gap: 12px; border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px; background: var(--surface); font-size: 17px; }
@@ -144,8 +150,28 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     <button class="btn secondary" type="button" data-go="pauta">Cambiar pauta</button>
   </div>
   <button class="btn secondary" type="button" data-go="historial">Mis tomas · compartir</button>
+
+  <div class="farmacia" id="farmacia-patro" hidden>
+    <p class="farmacia-tag">Tu farmacia</p>
+    <div class="farmacia-cab">
+      <img id="farm-logo" alt="" hidden>
+      <div><strong id="farm-nombre"></strong><span class="small muted" id="farm-dir"></span></div>
+    </div>
+    <div class="row">
+      <a class="btn secondary" id="farm-llamar">Llamar</a>
+      <a class="btn secondary" id="farm-wa" target="_blank" rel="noopener" hidden>WhatsApp</a>
+      <a class="btn secondary" id="farm-mapa" target="_blank" rel="noopener">Cómo llegar</a>
+    </div>
+  </div>
+  <div class="farmacia">
+    <p class="farmacia-tag">Farmacias</p>
+    <div class="row">
+      <a class="btn secondary" id="farm-cerca" target="_blank" rel="noopener">La más cercana</a>
+      <a class="btn secondary" id="farm-guardia" target="_blank" rel="noopener">De guardia hoy</a>
+    </div>
+  </div>
   <p class="disclaimer">No es una app médica: solo te ayuda a recordar. Ante cualquier duda, sigue la pauta de tu médico. <button class="link" type="button" data-legal="aviso">Aviso legal y privacidad</button></p>
-  <p class="disclaimer" id="version">Versión 10 · aviso legal y privacidad</p>
+  <p class="disclaimer" id="version">Versión 11 · tu farmacia</p>
 </section>
 
 <!-- AÑADIR PAUTA -->
@@ -220,6 +246,12 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   </div>
   <p class="small muted" id="avisos-nativo" hidden>El móvil te avisará cada día a esa hora aunque la app esté cerrada. Si no la confirmas, te lo recordará otra vez a la media hora. También te avisará el día antes del control.</p>
   <p class="small muted" id="avisos-web">Con la app abierta, a esa hora verás un aviso grande y sonará un pitido. Los avisos por WhatsApp y correo llegarán en la versión instalable.</p>
+
+  <div class="field">
+    <label for="in-municipio">Tu pueblo o ciudad</label>
+    <input id="in-municipio" type="text" autocomplete="address-level2" placeholder="Benicarló">
+    <p class="small muted">Para buscar la farmacia de guardia.</p>
+  </div>
 
   <h2>Quién te ayuda</h2>
   <div class="row">
@@ -362,7 +394,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   <p>En la versión de prueba que se abre en el navegador, la foto de la hoja se envía a Anthropic (Claude) solo para leer las fechas, y no se guarda allí con ese fin.</p>
 
   <h2>4. Cuándo salen tus datos del móvil</h2>
-  <p>Solo cuando tú lo decides: por ejemplo, al compartir el resumen de tomas por WhatsApp o correo, o al pedir ayuda. En ese caso se aplican las condiciones de la app que uses para enviarlo.</p>
+  <p>Solo cuando tú lo decides: por ejemplo, al compartir el resumen de tomas por WhatsApp o correo, o al pedir ayuda. En ese caso se aplican las condiciones de la app que uses para enviarlo. Los botones de farmacias abren Google Maps o el buscador de Google con el nombre de tu pueblo; la app no envía tu ubicación, aunque Google Maps puede pedírtela.</p>
 
   <h2>5. Base legal</h2>
   <p>Tu consentimiento explícito, que das al aceptar esta política (artículos 6.1.a y 9.2.a del Reglamento General de Protección de Datos). Puedes retirarlo cuando quieras borrando tus datos o desinstalando la app.</p>
@@ -417,6 +449,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     inr: [],       // [{ valor, fecha }]
     control: { fecha: '', hora: '', turno: '', lugar: '' },
     tomas: {},     // { 'YYYY-MM-DD': 'HH:MM' or 'tarde' when confirmed afterwards }
+    municipio: '', // for the duty-pharmacy search
     previstos: []  // dose days of earlier pautas, so the history survives a new sheet
   };
   try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
@@ -945,6 +978,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     checkAlarm();
   }
   function renderAjustes() {
+    $('in-municipio').value = state.municipio || municipio();
     $('in-hora').value = state.hora;
     $('in-ayuda-nombre').value = state.ayuda.nombre; $('in-ayuda-tel').value = state.ayuda.tel;
     $('lnk-gcal-dosis').href = gcalLink('Tomar el Sintrom', iso(today()), state.hora, 'Abre MiPauta para ver tu dosis de hoy.', true);
@@ -1058,7 +1092,30 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     } catch (e) { /* closed the share sheet */ }
   });
 
-  const renders = { historial: renderHistorial, hoy: renderHoy, ajustes: renderAjustes, control: renderControl, inr: renderInr, semana: renderSemana,
+
+  // ---------- sponsoring pharmacy (set per licence at build time) and pharmacies nearby ----------
+  // { nombre, direccion, telefono, whatsapp, logo }  — null shows only the nearby/duty buttons.
+  const FARMACIA = null;
+  function municipio() {
+    if (state.municipio) return state.municipio;
+    const l = (state.control.lugar || '').replace(/^(C\.?\s?S\.?|Centro de Salud|Consultorio)\s*/i, '').trim();
+    return l;
+  }
+  function renderFarmacia() {
+    const f = FARMACIA;
+    $('farmacia-patro').hidden = !f;
+    if (f) {
+      $('farm-nombre').textContent = f.nombre; $('farm-dir').textContent = f.direccion || '';
+      if (f.logo) { $('farm-logo').src = f.logo; $('farm-logo').hidden = false; }
+      $('farm-llamar').href = 'tel:' + (f.telefono || '').replace(/\s/g, '');
+      $('farm-wa').hidden = !f.whatsapp; if (f.whatsapp) $('farm-wa').href = waLink(f.whatsapp, 'Hola, os escribo desde la app MiPauta.');
+      $('farm-mapa').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(f.nombre + ' ' + (f.direccion || ''));
+    }
+    $('farm-cerca').href = 'https://www.google.com/maps/search/farmacia/';
+    $('farm-guardia').href = 'https://www.google.com/search?q=' + encodeURIComponent('farmacia de guardia hoy ' + municipio());
+  }
+  $('in-municipio').addEventListener('input', () => { state.municipio = $('in-municipio').value.trim(); save(); });
+  const renders = { historial: renderHistorial, hoy: () => { renderHoy(); renderFarmacia(); }, ajustes: renderAjustes, control: renderControl, inr: renderInr, semana: renderSemana,
     revisar: renderRevisar,
     confirmar: () => showCrop('conf-crop', 'conf-fuera'),
     pauta: () => { $('pauta-manual').hidden = true; $('pauta-estado').textContent = ''; } };
@@ -1159,7 +1216,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     document.body.classList.add('nativo');
     $('card-gcal').hidden = true; $('pauta-ayuda').hidden = true;
     $('avisos-nativo').hidden = false; $('avisos-web').hidden = true;
-    $('version').textContent = 'Versión 10 · app instalada';
+    $('version').textContent = 'Versión 11 · app instalada';
     const _save = save;
     save = function () { _save(); clearTimeout(save.t); save.t = setTimeout(programarAvisos, 400); };
     document.addEventListener('visibilitychange', () => { if (!document.hidden) { if (!$('s-hoy').hidden) renderHoy(); programarAvisos(); } });

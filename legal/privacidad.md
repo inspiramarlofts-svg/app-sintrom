@@ -21,7 +21,7 @@ La lectura de la foto se hace dentro del propio móvil con las herramientas de G
 En la versión de prueba que se abre en el navegador, la foto de la hoja se envía a Anthropic (Claude) solo para leer las fechas, y no se guarda allí con ese fin.
 
 ## 4. Cuándo salen tus datos del móvil
-Solo cuando tú lo decides: por ejemplo, al compartir el resumen de tomas por WhatsApp o correo, o al pedir ayuda. En ese caso se aplican las condiciones de la app que uses para enviarlo.
+Solo cuando tú lo decides: por ejemplo, al compartir el resumen de tomas por WhatsApp o correo, o al pedir ayuda. En ese caso se aplican las condiciones de la app que uses para enviarlo. Los botones de farmacias abren Google Maps o el buscador de Google con el nombre de tu pueblo; la app no envía tu ubicación, aunque Google Maps puede pedírtela.
 
 ## 5. Base legal
 Tu consentimiento explícito, que das al aceptar esta política (artículos 6.1.a y 9.2.a del Reglamento General de Protección de Datos). Puedes retirarlo cuando quieras borrando tus datos o desinstalando la app.

@@ -1,6 +1,6 @@
 // Builds www/ for the installed app from the same page that is published as the web artifact.
 // The page is a body fragment, so it gets a full document; CDN scripts and fonts become local files.
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
 
 const out = 'www';
 mkdirSync(`${out}/lib`, { recursive: true });
@@ -15,6 +15,12 @@ html = html.replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.c
 @font-face{font-family:'Atkinson Hyperlegible';font-weight:400;src:url(fonts/atkinson-400.woff2) format('woff2')}
 @font-face{font-family:'Atkinson Hyperlegible';font-weight:700;src:url(fonts/atkinson-700.woff2) format('woff2')}
 </style>`);
+// sponsoring pharmacy of this licence (see farmacia.ejemplo.json)
+if (existsSync('farmacia.json')) {
+  const f = JSON.parse(readFileSync('farmacia.json', 'utf8'));
+  if (!html.includes('const FARMACIA = null;')) throw new Error('FARMACIA placeholder not found');
+  html = html.replace('const FARMACIA = null;', 'const FARMACIA = ' + JSON.stringify(f) + ';');
+}
 if (html.includes('https://cdnjs') || html.includes('fonts.googleapis')) throw new Error('remote asset left in page');
 
 const doc = `<!doctype html>
