@@ -1,6 +1,6 @@
 {
-  "appId": "es.inspiramar.misintrom",
-  "appName": "Mi Sintrom",
+  "appId": "es.inspiramar.mipauta",
+  "appName": "MiPauta",
   "webDir": "www",
   "plugins": {
     "LocalNotifications": {

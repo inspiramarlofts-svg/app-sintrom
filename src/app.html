@@ -1,4 +1,4 @@
-<title>Mi Sintrom</title>
+<title>MiPauta</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
@@ -145,7 +145,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   </div>
   <button class="btn secondary" type="button" data-go="historial">Mis tomas · compartir</button>
   <p class="disclaimer">No es una app médica: solo te ayuda a recordar. Ante cualquier duda, sigue la pauta de tu médico. <button class="link" type="button" data-legal="aviso">Aviso legal y privacidad</button></p>
-  <p class="disclaimer" id="version">Versión 9 · aviso legal y privacidad</p>
+  <p class="disclaimer" id="version">Versión 10 · aviso legal y privacidad</p>
 </section>
 
 <!-- AÑADIR PAUTA -->
@@ -288,7 +288,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
 <section class="screen" id="s-bienvenida" hidden>
   <h1>Antes de empezar</h1>
   <div class="card">
-    <p><strong>Mi Sintrom no es una app médica.</strong> Es una ayuda para recordar: te enseña la hoja que te dio tu médico y te avisa a la hora de tomar el Sintrom. No calcula ni cambia dosis.</p>
+    <p><strong>MiPauta no es una app médica.</strong> Es una ayuda para recordar: te enseña la hoja que te dio tu médico y te avisa a la hora de tomar el Sintrom. No calcula ni cambia dosis.</p>
     <p>Si tienes cualquier duda sobre tu dosis, sigue siempre la hoja de tu médico o pregunta en tu centro de salud o farmacia.</p>
     <p><strong>Tus datos se quedan en tu móvil.</strong> Nadie más los ve, salvo que tú decidas compartirlos.</p>
   </div>
@@ -307,19 +307,19 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   <p class="small muted">Versión 1 · octubre de 2026</p>
 
   <h2>1. Quién es el titular</h2>
-  <p>La app Mi Sintrom es propiedad de <strong class="t-nombre"></strong>, con NIF <span class="t-nif"></span> y domicilio en <span class="t-domicilio"></span>. Puedes escribirnos a <span class="t-email"></span>.</p>
+  <p>La app MiPauta es propiedad de <strong class="t-nombre"></strong>, con NIF <span class="t-nif"></span> y domicilio en <span class="t-domicilio"></span>. Puedes escribirnos a <span class="t-email"></span>.</p>
 
   <h2>2. Para qué sirve la app</h2>
-  <p>Mi Sintrom es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma.</p>
+  <p>MiPauta es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma.</p>
 
   <h2>3. No es una app médica</h2>
-  <p><strong>Mi Sintrom no es una aplicación médica ni un producto sanitario. Es solo un facilitador de recordatorios.</strong></p>
+  <p><strong>MiPauta no es una aplicación médica ni un producto sanitario. Es solo un facilitador de recordatorios.</strong></p>
   <ul>
     <li>No sustituye al médico, al enfermero ni al farmacéutico.</li>
     <li>No calcula, no interpreta y no modifica dosis. Lo que ves es siempre la imagen de tu hoja original.</li>
     <li>No hace diagnósticos ni recomendaciones médicas.</li>
   </ul>
-  <p>Mi Sintrom no tiene relación con Novartis ni con los titulares de la marca Sintrom®, que se cita solo para identificar el medicamento.</p>
+  <p>MiPauta no tiene relación con Novartis ni con los titulares de la marca Sintrom®, que se cita solo para identificar el medicamento.</p>
 
   <h2>4. Tu responsabilidad al usarla</h2>
   <ul>
@@ -947,7 +947,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   function renderAjustes() {
     $('in-hora').value = state.hora;
     $('in-ayuda-nombre').value = state.ayuda.nombre; $('in-ayuda-tel').value = state.ayuda.tel;
-    $('lnk-gcal-dosis').href = gcalLink('Tomar el Sintrom', iso(today()), state.hora, 'Abre Mi Sintrom para ver tu dosis de hoy.', true);
+    $('lnk-gcal-dosis').href = gcalLink('Tomar el Sintrom', iso(today()), state.hora, 'Abre MiPauta para ver tu dosis de hoy.', true);
   }
   function renderControl() {
     const c = state.control;
@@ -1009,7 +1009,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   function textoTomada(t) { return t === 'tarde' ? 'tomada (confirmada después)' : 'tomada a las ' + t; }
   function textoHistorial() {
     const h = historial();
-    const L = ['Mi Sintrom · Resumen de tomas'];
+    const L = ['MiPauta · Resumen de tomas'];
     if (h.lista.length) L.push('Del ' + fmtLargo(parseIso(h.lista[h.lista.length - 1].k)) + ' al ' + fmtLargo(parseIso(h.lista[0].k)));
     if (h.total) L.push('Tomas confirmadas: ' + h.ok + ' de ' + h.total + ' días (' + h.pct + ' %)');
     const faltan = h.lista.filter((d) => d.estado === 'no').map((d) => fmtCortoAnyo(parseIso(d.k)));
@@ -1019,7 +1019,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     if (state.control.fecha) L.push('Próximo control: ' + controlTexto());
     L.push('', 'Día a día:');
     h.lista.forEach((d) => L.push(fmtCortoAnyo(parseIso(d.k)) + ' · ' + (d.estado === 'ok' ? textoTomada(d.t) : d.estado === 'pend' ? 'pendiente' : 'SIN CONFIRMAR')));
-    L.push('', 'Registro de lo confirmado en la app Mi Sintrom. No sustituye al control médico.');
+    L.push('', 'Registro de lo confirmado en la app MiPauta. No sustituye al control médico.');
     return L.join('\n');
   }
   function renderHistorial() {
@@ -1137,8 +1137,8 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
         if (!fechas.has(k) || state.tomas[k]) continue;
         const at = new Date(d); at.setHours(h, m, 0, 0);
         const at2 = new Date(at.getTime() + 30 * 60000);
-        if (at > ahora) lista.push({ id: 1000 + i, title: 'Hora del Sintrom', body: 'Abre Mi Sintrom para ver tu dosis de hoy.', schedule: { at, allowWhileIdle: true }, channelId: 'dosis' });
-        if (at2 > ahora) lista.push({ id: 2000 + i, title: '¿Te has tomado el Sintrom?', body: 'Todavía no lo has confirmado. Abre Mi Sintrom.', schedule: { at: at2, allowWhileIdle: true }, channelId: 'dosis' });
+        if (at > ahora) lista.push({ id: 1000 + i, title: 'Hora del Sintrom', body: 'Abre MiPauta para ver tu dosis de hoy.', schedule: { at, allowWhileIdle: true }, channelId: 'dosis' });
+        if (at2 > ahora) lista.push({ id: 2000 + i, title: '¿Te has tomado el Sintrom?', body: 'Todavía no lo has confirmado. Abre MiPauta.', schedule: { at: at2, allowWhileIdle: true }, channelId: 'dosis' });
       }
       const c = state.control;
       if (c.fecha) {
@@ -1149,7 +1149,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
       }
       if (ultima) {
         const fin = parseIso(ultima); fin.setDate(fin.getDate() + 1); fin.setHours(10, 0, 0, 0);
-        if (fin > ahora) lista.push({ id: 3003, title: 'Tu pauta se ha terminado', body: 'Sube en Mi Sintrom la hoja nueva que te dieron en el control.', schedule: { at: fin, allowWhileIdle: true }, channelId: 'dosis' });
+        if (fin > ahora) lista.push({ id: 3003, title: 'Tu pauta se ha terminado', body: 'Sube en MiPauta la hoja nueva que te dieron en el control.', schedule: { at: fin, allowWhileIdle: true }, channelId: 'dosis' });
       }
       if (lista.length) await LN.schedule({ notifications: lista });
     } catch (e) { console.warn('avisos', e); }
@@ -1159,7 +1159,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     document.body.classList.add('nativo');
     $('card-gcal').hidden = true; $('pauta-ayuda').hidden = true;
     $('avisos-nativo').hidden = false; $('avisos-web').hidden = true;
-    $('version').textContent = 'Versión 9 · app instalada';
+    $('version').textContent = 'Versión 10 · app instalada';
     const _save = save;
     save = function () { _save(); clearTimeout(save.t); save.t = setTimeout(programarAvisos, 400); };
     document.addEventListener('visibilitychange', () => { if (!document.hidden) { if (!$('s-hoy').hidden) renderHoy(); programarAvisos(); } });

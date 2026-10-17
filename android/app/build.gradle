@@ -4,11 +4,11 @@ android {
     namespace = "es.inspiramar.misintrom"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "es.inspiramar.misintrom"
+        applicationId "es.inspiramar.mipauta"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "0.9"
+        versionCode 10
+        versionName "0.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

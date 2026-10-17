@@ -1,4 +1,4 @@
-# Mi Sintrom
+# MiPauta
 
 Recordatorio diario del Sintrom que enseña, cada día, el recorte de la hoja de pauta original del hospital.
 

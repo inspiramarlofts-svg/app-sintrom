@@ -2,19 +2,19 @@
 _Versión 1 · octubre de 2026_
 
 ## 1. Quién es el titular
-La app Mi Sintrom es propiedad de **Inspiramar**, con NIF [NIF pendiente] y domicilio en [domicilio pendiente]. Puedes escribirnos a [correo pendiente].
+La app MiPauta es propiedad de **Inspiramar**, con NIF [NIF pendiente] y domicilio en [domicilio pendiente]. Puedes escribirnos a [correo pendiente].
 
 ## 2. Para qué sirve la app
-Mi Sintrom es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma.
+MiPauta es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma.
 
 ## 3. No es una app médica
-**Mi Sintrom no es una aplicación médica ni un producto sanitario. Es solo un facilitador de recordatorios.**
+**MiPauta no es una aplicación médica ni un producto sanitario. Es solo un facilitador de recordatorios.**
 
 - No sustituye al médico, al enfermero ni al farmacéutico.
 - No calcula, no interpreta y no modifica dosis. Lo que ves es siempre la imagen de tu hoja original.
 - No hace diagnósticos ni recomendaciones médicas.
 
-Mi Sintrom no tiene relación con Novartis ni con los titulares de la marca Sintrom®, que se cita solo para identificar el medicamento.
+MiPauta no tiene relación con Novartis ni con los titulares de la marca Sintrom®, que se cita solo para identificar el medicamento.
 
 ## 4. Tu responsabilidad al usarla
 

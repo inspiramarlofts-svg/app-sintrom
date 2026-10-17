@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Mi Sintrom</string>
-    <string name="title_activity_main">Mi Sintrom</string>
-    <string name="package_name">es.inspiramar.misintrom</string>
-    <string name="custom_url_scheme">es.inspiramar.misintrom</string>
+    <string name="app_name">MiPauta</string>
+    <string name="title_activity_main">MiPauta</string>
+    <string name="package_name">es.inspiramar.mipauta</string>
+    <string name="custom_url_scheme">es.inspiramar.mipauta</string>
 </resources>
