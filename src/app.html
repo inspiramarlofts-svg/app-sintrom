@@ -178,7 +178,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
     </div>
   </div>
   <p class="disclaimer">No es una app médica: solo te ayuda a recordar. Ante cualquier duda, sigue la pauta de tu médico. <button class="link" type="button" data-legal="aviso">Aviso legal y privacidad</button></p>
-  <p class="disclaimer" id="version">Versión 12 · tu farmacia</p>
+  <p class="disclaimer" id="version">Versión 13 · tu farmacia</p>
 </section>
 
 <!-- AÑADIR PAUTA -->
@@ -451,7 +451,7 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
   const mondayOf = (d) => { const x = new Date(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; };
   // ---------- languages: the Spanish text is the key; I18N (script above) holds the other languages ----------
   const IDIOMAS = [['es', 'Castellano', 'es-ES'], ['ca', 'Català', 'ca-ES'], ['va', 'Valencià', 'ca-ES'], ['gl', 'Galego', 'gl-ES'], ['eu', 'Euskara', 'eu-ES']];
-  const VERSION = 12;
+  const VERSION = 13;
   let idioma = 'es';
   const tr = (s, ...a) => ((I18N[idioma] && I18N[idioma][s]) || s).replace(/\{(\d)\}/g, (_, i) => a[i]);
   const LOC = () => (IDIOMAS.find((x) => x[0] === idioma) || IDIOMAS[0])[2];
@@ -741,15 +741,18 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
       if (ml) extras.control.lugar = ml[1].trim();
     }
     const mi = full.match(/DATOS DE LA VISITA.*?INR\.*:\s*([\d]+[,.]?\d*)/i);
-    if (mi && mv) extras.inr = { valor: mi[1].replace('.', ','), fecha: mv[3] + '-' + mv[2] + '-' + mv[1] };
+    if (mi && mi[1] && mv) extras.inr = { valor: mi[1].replace('.', ','), fecha: mv[3] + '-' + mv[2] + '-' + mv[1] };
     return days.length ? { days, extras } : null;
   }
   // Photos of the paper sheet: on-device text recognition gives the day labels ("25SEP") and where they are.
   // Labels sit on a grid (one column per weekday, one row per week), so a few well-read labels are enough to
   // place every day of the sheet, also when the photo is a little turned. Labels that do not fit are ignored.
   function leerEtiqueta(s) {
+    // full dates, as in Aragón and Castilla y León ("14/03/2015", sometimes read without the slashes)
+    const f = s.replace(/\s/g, '').match(/^(\d{1,2})[\/.-]?(\d{2})[\/.-]?(\d{4})$/);
+    if (f && +f[1] >= 1 && +f[1] <= 31 && +f[2] >= 1 && +f[2] <= 12) return { dia: +f[1], mes: +f[2], anyo: +f[3] };
     s = s.toUpperCase().replace(/[^0-9A-Z]/g, '');
-    if (s.length < 4 || s.length > 5) return null;
+    if (s.length < 4 || s.length > 5 || /^(TOMAR|TOMAS)$/.test(s)) return null; // "NO TOMAR" is printed in the boxes
     const d = s.slice(0, -3).replace(/[OQD]/g, '0').replace(/[IL|T]/g, '1').replace(/Z/g, '2').replace(/S/g, '5').replace(/B/g, '8').replace(/G/g, '6');
     const m = s.slice(-3).replace(/0/g, 'O').replace(/1/g, 'I').replace(/5/g, 'S').replace(/8/g, 'B').replace(/€/g, 'E');
     let mes = MESES[m];
@@ -776,23 +779,34 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
       const r = e.boundingBox; if (!r || !e.text) return;
       words.push({ s: e.text.trim(), x: r.left, y: r.top, w: r.right - r.left, h: r.bottom - r.top });
     })));
-    const mv = full.match(/(\d{2})\/(\d{2})\/(\d{4})\s+\d{2}:\d{2}/);
-    const ref = mv ? new Date(+mv[3], +mv[2] - 1, +mv[1]) : today();
+    const mv = full.match(/[FE]echa(?:\s*Visita)?[\s.:]*(\d{2})\/(\d{2})\/(\d{4})/i) || full.match(/(\d{2})\/(\d{2})\/(\d{4})\s+\d{2}:\d{2}/);
+    let ref = mv ? new Date(+mv[3], +mv[2] - 1, +mv[1]) : today();
 
-    // "25 SEP" may come as two words
+    // "25 SEP" may come as two words, side by side or one above the other (Galicia: "13" over "MAR")
     const toks = words.slice();
     words.forEach((a) => {
       if (!/^[0-9OIlTZS]{1,2}$/i.test(a.s)) return;
-      const b = words.find((o) => o !== a && o.s.length === 3 && o.x > a.x && o.x - (a.x + a.w) < a.h * 1.2 && Math.abs(o.y - a.y) < a.h * 0.6);
-      if (b) toks.push({ s: a.s + b.s, x: a.x, y: Math.min(a.y, b.y), w: b.x + b.w - a.x, h: Math.max(a.h, b.h) });
+      const b = words.find((o) => o !== a && o.s.length === 3 && o.x > a.x && o.x - (a.x + a.w) < a.h * 1.2 && Math.abs(o.y - a.y) < a.h * 0.6) ||
+        words.find((o) => o !== a && /^[A-Z€]{3}$/i.test(o.s) && o.y > a.y && o.y - (a.y + a.h) < a.h * 0.9 && Math.abs(o.x - a.x) < a.h * 1.2);
+      if (b) toks.push({ s: a.s + b.s, x: Math.min(a.x, b.x), y: Math.min(a.y, b.y), w: Math.max(a.x + a.w, b.x + b.w) - Math.min(a.x, b.x), h: Math.max(a.h, b.h) });
     });
-    const ctrl = words.filter((t) => /^CONTROL$/i.test(t.s));
-    const labels = toks.map((t) => {
+    const ctrl = words.filter((t) => /^CONTROL/i.test(t.s));
+    let leidas = toks.map((t) => {
       const e = leerEtiqueta(t.s); if (!e) return null;
       if (ctrl.some((c) => Math.abs(c.x - t.x) < c.w && t.y > c.y && t.y - c.y < 3 * c.h)) return null;
-      const d = fechaCercana(e.dia, e.mes, ref);
-      return { d, x: t.x, y: t.y, h: t.h };
+      return Object.assign(e, { x: t.x, y: t.y, h: t.h });
     }).filter(Boolean);
+    // a sheet uses one kind of label; full dates on a "25SEP" sheet belong to the list of past visits
+    const cortas = leidas.filter((e) => !e.anyo);
+    leidas = cortas.length >= 4 ? cortas : leidas.filter((e) => e.anyo);
+    // with full dates the sheet itself says the year; the visit date may be missing or misread
+    const completas = leidas.filter((e) => e.anyo).map((e) => new Date(e.anyo, e.mes - 1, e.dia));
+    if (completas.length >= 3 && !(Math.abs(mediana(completas.map(Number)) - ref) < 120 * 864e5)) ref = new Date(mediana(completas.map(Number)));
+    const labels = leidas.map((e) => {
+      let d = e.anyo ? new Date(e.anyo, e.mes - 1, e.dia) : null;
+      if (!d || Math.abs(d - ref) > 120 * 864e5) d = fechaCercana(e.dia, e.mes, ref);
+      return { d, x: e.x, y: e.y, h: e.h };
+    });
     if (labels.length < 4) return null;
 
     // grid steps: u = one column to the right, v = one week down
@@ -801,8 +815,9 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
     const ux = [], uy = [], vx = [], vy = [];
     labels.forEach((a) => labels.forEach((b) => {
       if (a === b) return;
-      if (a.fila === b.fila && b.col > a.col) { const k = b.col - a.col; ux.push((b.x - a.x) / k); uy.push((b.y - a.y) / k); }
-      if (a.col === b.col && b.fila > a.fila) { const k = b.fila - a.fila; vx.push((b.x - a.x) / k); vy.push((b.y - a.y) / k); }
+      // the sheet is never turned more than 45°: days go right, weeks go down (stray labels give other directions)
+      if (a.fila === b.fila && b.col > a.col && b.x - a.x > Math.abs(b.y - a.y)) { const k = b.col - a.col; ux.push((b.x - a.x) / k); uy.push((b.y - a.y) / k); }
+      if (a.col === b.col && b.fila > a.fila && b.y - a.y > Math.abs(b.x - a.x)) { const k = b.fila - a.fila; vx.push((b.x - a.x) / k); vy.push((b.y - a.y) / k); }
     }));
     const u = { x: mediana(ux), y: mediana(uy) }, v = { x: mediana(vx), y: mediana(vy) };
     const lu = Math.hypot(u.x, u.y), lv = Math.hypot(v.x, v.y);
@@ -817,8 +832,10 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
     if ((hasta - desde) / 864e5 > 70) return null;
     const extras = leerExtras(full, mv);
     // the calendar starts on the visit day and ends the day before the next check-up
-    if (mv && ref < desde && desde - ref <= 14 * 864e5) desde.setTime(ref.getTime());
-    if (extras.control) { const fin = parseIso(extras.control.fecha); fin.setDate(fin.getDate() - 1); if (fin > hasta && fin - hasta <= 14 * 864e5) hasta.setTime(fin.getTime()); }
+    // (some sheets also print the days around it, greyed out: those are left out)
+    const desdeVisita = !!mv && Math.abs(desde - ref) <= 14 * 864e5;
+    if (desdeVisita) desde.setTime(ref.getTime());
+    if (extras.control) { const fin = parseIso(extras.control.fecha); fin.setDate(fin.getDate() - 1); if (fin > desde && fin - hasta <= 14 * 864e5 && hasta - fin <= 21 * 864e5) hasta.setTime(fin.getTime()); }
     const rot = Math.atan2(u.y, u.x);
     const days = [];
     for (const d = new Date(desde); d <= hasta; d.setDate(d.getDate() + 1)) {
@@ -830,18 +847,29 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
       days.push({ date: iso(d), exacta: true, rot, x: (cx / W) * 100, y: (cy / H) * 100, w: (lu * 1.02 / W) * 100, h: (lv * 1.02 / H) * 100 });
     }
 
-    return { days, extras, leidas: buenas.length, u, v, lunes0, ox, oy, W, H };
+    return { days, extras, leidas: buenas.length, desdeVisita, u, v, lunes0, ox, oy, W, H };
   }
   function leerExtras(full, mv) {
     const extras = {};
-    const mc = full.match(/Pr[oó]xima Visita:?[\s\S]{0,40}?(\d{2})\/(\d{2})\/(\d{4})(?:\s*Turno:?\s*(\S+))?(?:\s*Num:?\s*(\d+))?/i);
-    if (mc) {
-      extras.control = { fecha: mc[3] + '-' + mc[2] + '-' + mc[1], hora: '', turno: [mc[4], mc[5] ? 'nº ' + mc[5] : ''].filter(Boolean).join(', '), lugar: '' };
-      const ml = full.match(/Centro visita:?\s*(.+?)\s*(Comentarios|$)/i);
-      if (ml) extras.control.lugar = ml[1].trim();
+    const mc = full.match(/Pr[oó]xima Visita:?[^\d]{0,20}?(\d{2})\/(\d{2})\/(\d{4})(?:\s*Hora:?\s*(\d{1,2}:\d{2}))?(?:[\s\S]{0,40}?Turno:?\s*([A-Za-zÁÉÍÓÚáéíóúñÑ]+)?[\s-]*(?:Num:?\s*(\d+))?)?/i);
+    const ml = full.match(/Pr[oó]xima Visita:?[\s\S]{0,60}?(\d{1,2})\s+(?:de\s+)?([a-záéíóú]{4,})\s+(?:de\s+)?(\d{4})/i); // Aragón: "11 de Abril de 2015"
+    const MESES_L = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const largo = ml && MESES_L.indexOf(ml[2].toLowerCase()) >= 0;
+    if (mc && !largo) {
+      const turno = mc[5] && !/^Num$/i.test(mc[5]) ? mc[5] : '';
+      extras.control = { fecha: mc[3] + '-' + mc[2] + '-' + mc[1], hora: mc[4] ? mc[4].padStart(5, '0') : '', turno: [turno, mc[6] ? 'nº ' + mc[6] : ''].filter(Boolean).join(', '), lugar: '' };
+    } else if (largo) {
+      extras.control = { fecha: ml[3] + '-' + pad(MESES_L.indexOf(ml[2].toLowerCase()) + 1) + '-' + pad(+ml[1]), hora: '', turno: '', lugar: '' };
     }
-    const mi = full.match(/DATOS DE LA VISITA[\s\S]*?INR\.*:?[\s\S]{0,30}?(\d[,.]\d)/i);
-    if (mi && mv) extras.inr = { valor: mi[1].replace('.', ','), fecha: mv[3] + '-' + mv[2] + '-' + mv[1] };
+    if (extras.control) {
+      const mlu = full.match(/Centro(?: visita)?\.*:\s*(.+?)\s*(Comentarios|Servicio|$)/i);
+      if (mlu && mlu[1].length < 60) extras.control.lugar = mlu[1].trim();
+    }
+    // the first INR after "Datos de la visita" is today's result; past visits come later
+    const dv = full.search(/DATOS DE LA VISITA/i);
+    const mi = dv < 0 ? null : full.slice(dv).match(/(?:INR|Resultado)[^\d]{0,30}(\d+[,.]\d+|\d+)/i);
+    if (mi && !/[,.]/.test(mi[1])) mi[1] = '';
+    if (mi && mi[1] && mv) extras.inr = { valor: mi[1].replace('.', ','), fecha: mv[3] + '-' + mv[2] + '-' + mv[1] };
     return extras;
   }
   // Days at the start whose label was not read: keep them when their box has a pill drawn in it (dark ink).
@@ -854,6 +882,7 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
     return n / (px.length / 4);
   }
   function completarPorTinta(im, parsed) {
+    if (parsed.desdeVisita) return parsed; // the sheet starts on the visit day, which is known
     const ref = mediana(parsed.days.slice(0, 7).map((d) => tinta(im, d)));
     if (!(ref > 0.02)) return parsed;
     const plantilla = parsed.days[0], base = parseIso(plantilla.date), d = new Date(base);
