@@ -1,6 +1,6 @@
 {
   "appId": "es.inspiramar.mipauta",
-  "appName": "MiPauta",
+  "appName": "PautApp",
   "webDir": "www",
   "plugins": {
     "LocalNotifications": {

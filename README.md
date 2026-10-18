@@ -1,4 +1,4 @@
-# MiPauta
+# PautApp
 
 Recordatorio diario del Sintrom que enseña, cada día, el recorte de la hoja de pauta original del hospital.
 
@@ -19,3 +19,7 @@ Los datos del titular se rellenan en `TITULAR` dentro de `src/app.html` y en est
 ## Farmacia patrocinadora
 
 Para la versión de una farmacia, copia `farmacia.ejemplo.json` como `farmacia.json` y rellena sus datos (el logo puede ser una imagen en `data:`). Sin `farmacia.json` la app solo muestra los botones de la farmacia más cercana y la de guardia.
+
+## Idiomas
+
+La app está en castellano, català, valencià, galego y euskara. El texto de `src/app.html` en castellano es la clave; las traducciones están en `i18n/ui.py` (interfaz) y `i18n/legal_*.html` (aviso legal y privacidad). El valenciano se obtiene del catalán con las formas de `VALENCIA`. Tras cambiarlas: `python3 i18n/build.py src/app.html`.
