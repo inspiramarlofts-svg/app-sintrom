@@ -1,5 +1,5 @@
 # Política de privacidad
-_Versión 1 · octubre de 2026_
+_Versión 2 · octubre de 2026_
 
 ## 1. Responsable
 **Inspiramar**, NIF [NIF pendiente], [domicilio pendiente]. Contacto: [correo pendiente].
@@ -9,6 +9,7 @@ _Versión 1 · octubre de 2026_
 - La foto o el PDF de tu hoja de dosis, con los datos que aparezcan en ella.
 - Las fechas en que confirmas la toma y la hora de aviso que eliges.
 - Los valores de INR y la fecha del próximo control que apuntas o que aparecen en la hoja.
+- Las otras medicinas que apuntas: nombre, cantidad, horas, foto de la caja y cuándo confirmas cada toma.
 - El nombre y el móvil de la persona que te ayuda, si los escribes.
 
 Son datos de salud. Solo se usan para que la app funcione: enseñarte tu dosis, avisarte y llevar tu historial.

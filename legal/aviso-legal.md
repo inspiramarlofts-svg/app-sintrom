@@ -1,17 +1,17 @@
 # Aviso legal y condiciones de uso
-_Versión 1 · octubre de 2026_
+_Versión 2 · octubre de 2026_
 
 ## 1. Quién es el titular
 La app PautApp es propiedad de **Inspiramar**, con NIF [NIF pendiente] y domicilio en [domicilio pendiente]. Puedes escribirnos a [correo pendiente].
 
 ## 2. Para qué sirve la app
-PautApp es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma.
+PautApp es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma. También puedes apuntar otras medicinas que tomas cada día, con su nombre, la cantidad y las horas que tú escribes, y una foto de la caja.
 
 ## 3. No es una app médica
 **PautApp no es una aplicación médica ni un producto sanitario. Es solo un facilitador de recordatorios.**
 
 - No sustituye al médico, al enfermero ni al farmacéutico.
-- No calcula, no interpreta y no modifica dosis. Lo que ves es siempre la imagen de tu hoja original.
+- No calcula, no interpreta y no modifica dosis. Lo que ves es siempre la imagen de tu hoja original o lo que tú has escrito.
 - No hace diagnósticos ni recomendaciones médicas.
 
 PautApp no tiene relación con Novartis ni con los titulares de la marca Sintrom®, que se cita solo para identificar el medicamento.
@@ -20,7 +20,8 @@ PautApp no tiene relación con Novartis ni con los titulares de la marca Sintrom
 
 - Comprueba que cada día se corresponde con tu hoja cuando la app te lo pida al principio. Si algo no coincide, no la uses con esa hoja.
 - Ante cualquier duda, sigue la hoja de tu médico o consulta a tu centro de salud.
-- Sube la hoja nueva cada vez que te cambien la pauta.
+- Sube la hoja nueva cada vez que te cambien la pauta, y cambia o borra las otras medicinas cuando te las cambien.
+- Escribe las otras medicinas tal como te las indicó tu médico y revísalas.
 - Mantén el móvil con batería, con el sonido activado y con los permisos de avisos concedidos.
 
 ## 5. Límites de responsabilidad

@@ -22,4 +22,4 @@ Para la versión de una farmacia, copia `farmacia.ejemplo.json` como `farmacia.j
 
 ## Idiomas
 
-La app está en castellano, català, valencià, galego y euskara. El texto de `src/app.html` en castellano es la clave; las traducciones están en `i18n/ui.py` (interfaz) y `i18n/legal_*.html` (aviso legal y privacidad). El valenciano se obtiene del catalán con las formas de `VALENCIA`. Tras cambiarlas: `python3 i18n/build.py src/app.html`.
+La app está en castellano, català/valencià (un solo texto), galego y euskara. El texto de `src/app.html` en castellano es la clave; las traducciones están en `i18n/ui.py` (interfaz) y `i18n/legal_*.html` (aviso legal y privacidad). Tras cambiarlas: `python3 i18n/build.py src/app.html`.
