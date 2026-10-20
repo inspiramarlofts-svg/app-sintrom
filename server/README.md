@@ -15,4 +15,4 @@ Què es guarda: el nom amb què es veu la persona, l'hora de cada presa, el nom 
 3. Al repositori de GitHub, a Settings → Secrets and variables → Actions:
    - secret `GOOGLE_SERVICES_JSON` amb el contingut de `google-services.json`;
    - variable `FAMILIA_API_URL` amb `https://europe-west1-<projecte>.cloudfunctions.net/api`.
-4. Publicar el servidor: posar el nom del projecte a `.firebaserc` i, des d'aquesta carpeta, `npx firebase-tools deploy --only functions,firestore`.
+4. Publicar el servidor: des d'aquesta carpeta, `npx firebase-tools deploy --only functions,firestore`.
