@@ -1,11 +1,11 @@
 # Aviso legal y condiciones de uso
-_Versión 2 · octubre de 2026_
+_Versión 3 · octubre de 2026_
 
 ## 1. Quién es el titular
 La app PautApp es propiedad de **Inspiramar**, con NIF [NIF pendiente] y domicilio en [domicilio pendiente]. Puedes escribirnos a [correo pendiente].
 
 ## 2. Para qué sirve la app
-PautApp es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma. También puedes apuntar otras medicinas que tomas cada día, con su nombre, la cantidad y las horas que tú escribes, y una foto de la caja.
+PautApp es una herramienta de apoyo para recordar la toma del anticoagulante oral (acenocumarol). Guarda una foto o el PDF de la hoja de dosis que te dio tu médico, te enseña cada día el trozo de esa hoja que corresponde a ese día, te avisa a la hora que elijas y anota cuándo confirmas la toma. También puedes apuntar otras medicinas que tomas cada día, con su nombre, la cantidad y las horas que tú escribes, y una foto de la caja. Si lo activas, puede avisar al móvil de un familiar cuando no confirmas una toma.
 
 ## 3. No es una app médica
 **PautApp no es una aplicación médica ni un producto sanitario. Es solo un facilitador de recordatorios.**
@@ -23,6 +23,7 @@ PautApp no tiene relación con Novartis ni con los titulares de la marca Sintrom
 - Sube la hoja nueva cada vez que te cambien la pauta, y cambia o borra las otras medicinas cuando te las cambien.
 - Escribe las otras medicinas tal como te las indicó tu médico y revísalas.
 - Mantén el móvil con batería, con el sonido activado y con los permisos de avisos concedidos.
+- El aviso a tu familia es una ayuda más, no una vigilancia: puede no llegar, o llegar aunque hayas tomado la dosis, si tu móvil o el suyo no tienen internet.
 
 ## 5. Límites de responsabilidad
 Ponemos todo el cuidado en que la app funcione bien, pero no podemos garantizar que funcione siempre sin errores. Los avisos pueden no llegar si el móvil está apagado, sin batería, en silencio, con el ahorro de energía activado o si se han quitado los permisos. La lectura automática de la hoja puede equivocarse, y por eso se te pide que la compruebes.

@@ -23,3 +23,7 @@ Para la versión de una farmacia, copia `farmacia.ejemplo.json` como `farmacia.j
 ## Idiomas
 
 La app está en castellano, català/valencià (un solo texto), galego y euskara. El texto de `src/app.html` en castellano es la clave; las traducciones están en `i18n/ui.py` (interfaz) y `i18n/legal_*.html` (aviso legal y privacidad). Tras cambiarlas: `python3 i18n/build.py src/app.html`.
+
+## Familia
+
+Al empezar, la app pregunta para quién es: para uno mismo, para un familiar al que se la estás preparando, o para recibir los avisos de un familiar. Si la persona lo acepta, su móvil puede avisar al de un hijo o una hija cuando no confirma una toma. Necesita el servidor de `server/` (ver `server/README.md`); sin él, esa parte sale como «todavía no está activada».

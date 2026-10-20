@@ -21,6 +21,12 @@ if (existsSync('farmacia.json')) {
   if (!html.includes('const FARMACIA = null;')) throw new Error('FARMACIA placeholder not found');
   html = html.replace('const FARMACIA = null;', 'const FARMACIA = ' + JSON.stringify(f) + ';');
 }
+// server for the optional family link (see server/README.md): { "url": "https://europe-west1-<project>.cloudfunctions.net/api" }
+if (existsSync('familia.json')) {
+  const f = JSON.parse(readFileSync('familia.json', 'utf8'));
+  if (!html.includes('const FAMILIA_API = null;')) throw new Error('FAMILIA_API placeholder not found');
+  html = html.replace('const FAMILIA_API = null;', 'const FAMILIA_API = ' + JSON.stringify(f) + ';');
+}
 if (html.includes('https://cdnjs') || html.includes('fonts.googleapis')) throw new Error('remote asset left in page');
 
 const doc = `<!doctype html>

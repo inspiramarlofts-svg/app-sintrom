@@ -6,3 +6,6 @@ android/.gradle/
 android/local.properties
 android/app/src/main/assets/public/
 *.apk
+familia.json
+android/app/google-services.json
+server/functions/node_modules/

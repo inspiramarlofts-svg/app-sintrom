@@ -22,6 +22,19 @@ jobs:
           distribution: temurin
           java-version: 21
       - run: npm ci
+      # family link: the server address and the Firebase file for push messages, when they have been set up
+      - name: Family link settings
+        env:
+          FAMILIA_API_URL: ${{ vars.FAMILIA_API_URL }}
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$FAMILIA_API_URL" ] && [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            printf '{"url":"%s"}' "$FAMILIA_API_URL" > familia.json
+            printf '%s' "$GOOGLE_SERVICES_JSON" > android/app/google-services.json
+            echo "family link on"
+          else
+            echo "family link off (FAMILIA_API_URL / GOOGLE_SERVICES_JSON not set)"
+          fi
       - run: npm run sync
       - name: Build APK
         working-directory: android
