@@ -1,6 +1,8 @@
 # (castellano, català, galego, euskara). Valencià is derived from català in build.py.
 UI = [
 ('Tu farmacia', 'La teva farmàcia', 'A túa farmacia', 'Zure farmazia'),
+('¡Hola! Soy PautApp', 'Hola! Sóc PautApp', 'Ola! Son PautApp', 'Kaixo! PautApp naiz'),
+('Te ayudo a recordar tu medicina, cada día, a su hora.', "T'ajudo a recordar la teva medicina, cada dia, a la seva hora.", 'Axúdoche a lembrar a túa medicina, cada día, á súa hora.', 'Zure botika gogoratzen laguntzen dizut, egunero, bere orduan.'),
 ('Avisos y ajustes', 'Avisos i ajustos', 'Avisos e axustes', 'Abisuak eta ezarpenak'),
 ('Esto es un ejemplo.', 'Això és un exemple.', 'Isto é un exemplo.', 'Hau adibide bat da.'),
 ('Añade tu propia pauta para empezar.', 'Afegeix la teva pauta per començar.', 'Engade a túa propia pauta para comezar.', 'Gehitu zure pauta hasteko.'),
