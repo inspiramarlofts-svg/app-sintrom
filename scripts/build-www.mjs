@@ -27,6 +27,13 @@ if (existsSync('familia.json')) {
   if (!html.includes('const FAMILIA_API = null;')) throw new Error('FAMILIA_API placeholder not found');
   html = html.replace('const FAMILIA_API = null;', 'const FAMILIA_API = ' + JSON.stringify(f) + ';');
 }
+// demo co-branding for the Generalitat Valenciana (see README): { "logo": "marca-gva.png" }, the logo file next to it
+if (existsSync('gva.json')) {
+  const g = JSON.parse(readFileSync('gva.json', 'utf8'));
+  if (!html.includes('const MARCA_GVA = window.PAUTAPP_GVA || null;')) throw new Error('MARCA_GVA placeholder not found');
+  html = html.replace('const MARCA_GVA = window.PAUTAPP_GVA || null;', 'const MARCA_GVA = ' + JSON.stringify(g) + ';');
+  if (g.logo) copyFileSync(g.logo, `${out}/${g.logo}`);
+}
 if (html.includes('https://cdnjs') || html.includes('fonts.googleapis')) throw new Error('remote asset left in page');
 
 const doc = `<!doctype html>

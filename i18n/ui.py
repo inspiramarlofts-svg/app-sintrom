@@ -365,6 +365,22 @@ UI += [
 ('Este código no sirve o ha caducado. Pide uno nuevo en su móvil.', 'Aquest codi no serveix o ha caducat. Demana\'n un de nou al seu mòbil.', 'Este código non serve ou caducou. Pide un novo no seu móbil.', 'Kode honek ez du balio edo iraungi da. Eskatu berri bat bere mugikorrean.'),
 ('Uso PautApp para ayudar a mi familia con las medicinas: le recuerda cada toma y me avisa si se le olvida una. Es gratis:', "Faig servir PautApp per ajudar la meva família amb les medicines: li recorda cada presa i m'avisa si se n'oblida alguna. És gratis:", 'Uso PautApp para axudar á miña familia cos medicamentos: lémbralle cada toma e avísame se se lle esquece algunha. É de balde:', 'PautApp erabiltzen dut nire familiari sendagaiekin laguntzeko: hartualdi bakoitza gogorarazten dio eta bat ahazten bazaio abisatzen dit. Doan da:'),
 ('Uso PautApp para acordarme de las medicinas. Es gratis:', 'Faig servir PautApp per recordar les medicines. És gratis:', 'Uso PautApp para lembrar os medicamentos. É de balde:', 'PautApp erabiltzen dut sendagaiak gogoratzeko. Doan da:'),
+('Ya me las he tomado', "Ja me les he preses", 'Xa as tomei', 'Hartu ditut'),
+('Ayer no confirmaste', 'Ahir no vas confirmar', 'Onte non confirmaches', 'Atzo ez zenuen baieztatu'),
+('El {0} no confirmaste', 'El {0} no vas confirmar', 'O {0} non confirmaches', '{0}: ez zenuen baieztatu'),
+('¿Te la tomaste?', "Te la vas prendre?", 'Tomáchela?', 'Hartu zenuen?'),
+('¿Te las tomaste?', "Te les vas prendre?", 'Tomáchelas?', 'Hartu zenituen?'),
+('Sí, me la tomé', "Sí, me la vaig prendre", 'Si, tomeina', 'Bai, hartu nuen'),
+('Sí, me las tomé', "Sí, me les vaig prendre", 'Si, tomeinas', 'Bai, hartu nituen'),
+('No, no me la tomé', "No, no me la vaig prendre", 'Non, non a tomei', 'Ez, ez nuen hartu'),
+('No, no me las tomé', "No, no me les vaig prendre", 'Non, non as tomei', 'Ez, ez nituen hartu'),
+('Apuntado. Si se te olvidó una dosis, no tomes el doble para compensarla. Si tienes dudas, pregunta a tu médico o farmacéutico.',
+ "Apuntat. Si se t'ha oblidat una dosi, no en prenguis el doble per compensar-la. Si tens dubtes, pregunta al teu metge o farmacèutic.",
+ 'Anotado. Se esqueciches unha dose, non tomes o dobre para compensala. Se tes dúbidas, pregúntalle ao teu médico ou farmacéutico.',
+ 'Idatzita. Dosi bat ahaztu bazaizu, ez hartu bikoitza konpentsatzeko. Zalantzarik baduzu, galdetu medikuari edo farmazialariari.'),
+('Entendido', 'Entesos', 'Entendido', 'Ulertuta'),
+('NO TOMADA', 'NO PRESA', 'NON TOMADA', 'EZ HARTUA'),
+('No tomada', 'No presa', 'Non tomada', 'Ez hartua'),
 ]
 
 VALENCIA = [
