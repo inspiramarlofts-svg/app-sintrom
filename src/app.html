@@ -96,7 +96,8 @@ p { margin: 0; }
 .olvido .nota { font-size: 17px; }
 /* demo co-branding for the Generalitat Valenciana (only when MARCA_GVA is on) */
 .cobrand { display: flex; align-items: center; gap: 12px; background: #FFFFFF; color: #1B1F24; border-radius: 16px; padding: 8px 14px; }
-.cobrand img { height: 40px; width: auto; flex: none; }
+.cobrand img { height: 56px; width: auto; max-width: 100%; flex: none; }
+.cobrand.amb-logo { justify-content: center; padding: 6px 14px; }
 .cobrand div { display: flex; flex-direction: column; line-height: 1.15; }
 .cobrand strong { font-size: 16px; }
 .cobrand span { font-size: 15px; color: #5A544B; }
@@ -188,7 +189,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
 <!-- HOY -->
 <section class="screen" id="s-hoy">
   <header class="hero">
-  <div class="cobrand" id="cobrand" hidden><img id="cobrand-logo" alt="Generalitat Valenciana" hidden><div><strong>Generalitat Valenciana</strong><span>Conselleria de Sanitat</span></div></div>
+  <div class="cobrand" id="cobrand" hidden><img id="cobrand-logo" alt="Generalitat Valenciana" hidden><div id="cobrand-txt"><strong>Generalitat Valenciana</strong><span>Conselleria de Sanitat</span></div></div>
   <div class="top">
     <div class="marca"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FFFFFF"/><rect x="9" y="14" width="22" height="12" rx="6" fill="#F2A93B"/><path d="M20 14v12" stroke="#FFFFFF" stroke-width="2"/><path d="M14 9h12M14 31h12" stroke="#0B4F55" stroke-width="3" stroke-linecap="round"/></svg><span>PautApp</span><span class="gva" id="marca-gva" hidden>GVA</span></div>
     <button class="iconbtn" type="button" data-go="ajustes" aria-label="Avisos y ajustes"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
@@ -1447,7 +1448,7 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
   const MARCA_GVA = window.PAUTAPP_GVA || null;
   if (MARCA_GVA) {
     $('cobrand').hidden = false; $('marca-gva').hidden = false;
-    if (MARCA_GVA.logo) { $('cobrand-logo').src = MARCA_GVA.logo; $('cobrand-logo').hidden = false; }
+    if (MARCA_GVA.logo) { $('cobrand-logo').src = MARCA_GVA.logo; $('cobrand-logo').hidden = false; $('cobrand-txt').hidden = true; $('cobrand').classList.add('amb-logo'); }
   }
   function municipio() {
     if (state.municipio) return state.municipio;
