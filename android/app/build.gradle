@@ -7,7 +7,8 @@ android {
         applicationId "es.inspiramar.mipauta"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode((System.getenv("GITHUB_RUN_NUMBER") ?: "0").toInteger() + 100)
+        // minutes since 2025-03-30 (always grows, whichever workflow builds it), so a new APK installs over any older one
+        versionCode((int) (System.currentTimeMillis().intdiv(60000L) - 29000000L))
         versionName "0.17"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
