@@ -7,22 +7,22 @@
 :root {
   --bg: #F6F3EE; --surface: #FFFFFF; --soft: #EFE9DF; --line: #E6DFD3;
   --fg: #1B1F24; --muted: #5A544B;
-  --accent: #0B4F55; --accent-fg: #FFFFFF; --tint: #E3F0EF;
+  --accent: #003DA5; --accent-fg: #FFFFFF; --tint: #E4ECF8;
   --warm: #FCE9D6; --warm-fg: #7A3E06; --alert: #B4530A;
   --amber: #F2A93B; --mint: #DCEFE6; --mint-fg: #0A4A30; --ok: #0E6B45;
-  --hero: #0B4F55; --hero-fg: #FFFFFF;
+  --hero: #003DA5; --hero-fg: #FFFFFF;
   --shadow: 0 2px 0 #E6DFD3, 0 10px 30px rgba(11,79,85,0.08);
   --paper: #F4F1EA;
   --font: 'Atkinson Hyperlegible', 'Verdana', system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #15191C; --surface: #1F2529; --soft: #273036; --line: #36414A;
-  --fg: #F2EFE9; --muted: #C2BBB0; --accent: #6FC3C9; --accent-fg: #0C1A1C;
-  --warm: #3A2A1C; --warm-fg: #F6C995; --alert: #F2A35E; --paper: #F4F1EA; --tint: #1D3437; --amber: #F2A93B; --mint: #17352A; --mint-fg: #BFE8D3; --ok: #6FD3A5; --hero: #0F3A3E; --hero-fg: #F2EFE9; --shadow: none; color-scheme: dark } }
+  --fg: #F2EFE9; --muted: #C2BBB0; --accent: #8DB4F2; --accent-fg: #0A1830;
+  --warm: #3A2A1C; --warm-fg: #F6C995; --alert: #F2A35E; --paper: #F4F1EA; --tint: #1A2C4C; --amber: #F2A93B; --mint: #17352A; --mint-fg: #BFE8D3; --ok: #6FD3A5; --hero: #0B2C66; --hero-fg: #F2EFE9; --shadow: none; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #15191C; --surface: #1F2529; --soft: #273036; --line: #36414A;
-  --fg: #F2EFE9; --muted: #C2BBB0; --accent: #6FC3C9; --accent-fg: #0C1A1C;
-  --warm: #3A2A1C; --warm-fg: #F6C995; --alert: #F2A35E; --paper: #F4F1EA; --tint: #1D3437; --amber: #F2A93B; --mint: #17352A; --mint-fg: #BFE8D3; --ok: #6FD3A5; --hero: #0F3A3E; --hero-fg: #F2EFE9; --shadow: none; color-scheme: dark }
+  --fg: #F2EFE9; --muted: #C2BBB0; --accent: #8DB4F2; --accent-fg: #0A1830;
+  --warm: #3A2A1C; --warm-fg: #F6C995; --alert: #F2A35E; --paper: #F4F1EA; --tint: #1A2C4C; --amber: #F2A93B; --mint: #17352A; --mint-fg: #BFE8D3; --ok: #6FD3A5; --hero: #0B2C66; --hero-fg: #F2EFE9; --shadow: none; color-scheme: dark }
 
 [hidden] { display: none !important; }
 html, body { background: var(--bg); color: var(--fg); }
@@ -52,11 +52,14 @@ p { margin: 0; }
 .hero.portada h1 { font-size: 34px; }
 .hero.portada p { font-size: 20px; opacity: 0.92; }
 .setmana { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-.setmana div { border-radius: 16px; min-height: 58px; padding: 6px 0; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; border: 2px solid rgba(255,255,255,0.3); }
+.setmana > * { font: inherit; color: inherit; background: transparent; cursor: pointer; border-radius: 16px; min-height: 58px; padding: 6px 0; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; border: 2px solid rgba(255,255,255,0.3); }
 .setmana .l { font-size: 14px; text-transform: capitalize; }
 .setmana .n { font-size: 18px; }
 .setmana .feta { background: rgba(255,255,255,0.16); border-color: transparent; }
-.setmana .avui { background: #FFFFFF; color: #0B4F55; border-color: #FFFFFF; }
+.setmana button:disabled { cursor: default; }
+.setmana .futur { opacity: 0.7; }
+.setmana .falta { border-color: var(--amber); color: var(--amber); }
+.setmana .avui { background: #FFFFFF; color: #003DA5; border-color: #FFFFFF; }
 .pill { display: inline-flex; align-items: center; gap: 6px; background: var(--warm); color: var(--warm-fg); font-weight: 700; font-size: 18px; border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
 .card-cap { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .card.dosis { box-shadow: var(--shadow); border-color: transparent; border-radius: 28px; }
@@ -83,6 +86,7 @@ p { margin: 0; }
 .tile .label { font-size: 15px; color: var(--muted); }
 .tile.warm .label, .tile.warm .sub { color: var(--warm-fg); }
 .tile .value { font-size: 30px; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+#t-control { font-size: 18px; line-height: 1.25; }
 .tile .sub { font-size: 15px; color: var(--muted); }
 .banner { border-radius: 18px; padding: 14px 16px; background: var(--warm); color: var(--warm-fg); font-size: 18px; display: flex; flex-direction: column; gap: 10px; }
 .banner strong { color: var(--fg); }
@@ -102,7 +106,7 @@ p { margin: 0; }
 .cobrand strong { font-size: 16px; }
 .cobrand span { font-size: 15px; color: #5A544B; }
 .marca .gva { background: #FFFFFF; color: var(--accent); border-radius: 8px; padding: 1px 8px; font-size: 18px; letter-spacing: 0.04em; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .marca .gva { color: #0B4F55; } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .marca .gva { color: #003DA5; } }
 .alarm::before { content: ''; width: 64px; height: 64px; border-radius: 32px; background: #1B1F24 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 24 24' fill='none' stroke='%23F2A93B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9'/%3E%3Cpath d='M10.3 21a1.94 1.94 0 0 0 3.4 0'/%3E%3C/svg%3E") center no-repeat; }
 .disclaimer { font-size: 14px; color: var(--muted); line-height: 1.35; }
 .field { display: flex; flex-direction: column; gap: 6px; }
@@ -160,6 +164,7 @@ button.link { font: inherit; background: none; border: none; padding: 0; color: 
 .big-num { font-size: 40px; font-weight: 700; line-height: 1.1; margin: 0; }
 .his-lista { display: flex; flex-direction: column; gap: 8px; }
 .his-dia { display: flex; align-items: center; gap: 12px; border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px; background: var(--surface); font-size: 17px; }
+.his-dia.marcat { border-color: var(--accent); box-shadow: 0 0 0 3px var(--tint); }
 .his-dia .ico { width: 34px; height: 34px; border-radius: 17px; flex: none; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; }
 .his-dia .ok { background: var(--ok); color: var(--bg); }
 .his-dia .no { background: var(--alert); }
@@ -191,14 +196,14 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
   <header class="hero">
   <div class="cobrand" id="cobrand" hidden><img id="cobrand-logo" alt="Generalitat Valenciana" hidden><div id="cobrand-txt"><strong>Generalitat Valenciana</strong><span>Conselleria de Sanitat</span></div></div>
   <div class="top">
-    <div class="marca"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FFFFFF"/><rect x="9" y="14" width="22" height="12" rx="6" fill="#F2A93B"/><path d="M20 14v12" stroke="#FFFFFF" stroke-width="2"/><path d="M14 9h12M14 31h12" stroke="#0B4F55" stroke-width="3" stroke-linecap="round"/></svg><span>PautApp</span><span class="gva" id="marca-gva" hidden>GVA</span></div>
+    <div class="marca"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FFFFFF"/><rect x="9" y="14" width="22" height="12" rx="6" fill="#F2A93B"/><path d="M20 14v12" stroke="#FFFFFF" stroke-width="2"/><path d="M14 9h12M14 31h12" stroke="#003DA5" stroke-width="3" stroke-linecap="round"/></svg><span>PautApp</span><span class="gva" id="marca-gva" hidden>GVA</span></div>
     <button class="iconbtn" type="button" data-go="ajustes" aria-label="Avisos y ajustes"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
   </div>
   <div>
     <div class="muted" id="hoy-dia"></div>
     <h1 id="hoy-fecha"></h1>
   </div>
-  <div class="setmana" id="hoy-setmana" aria-hidden="true"></div>
+  <div class="setmana" id="hoy-setmana"></div>
   </header>
   <div class="banner" id="hoy-ejemplo" hidden>
     <span><strong>Esto es un ejemplo.</strong> Añade tu propia pauta para empezar.</span>
@@ -429,7 +434,7 @@ canvas.preview { width: 100%; border-radius: 12px; border: 2px solid var(--line)
 <!-- PRIMER USO: aceptar condiciones -->
 <section class="screen" id="s-bienvenida" hidden>
   <header class="hero portada">
-    <svg width="88" height="88" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FFFFFF"/><rect x="9" y="14" width="22" height="12" rx="6" fill="#F2A93B"/><path d="M20 14v12" stroke="#FFFFFF" stroke-width="2"/><path d="M14 9h12M14 31h12" stroke="#0B4F55" stroke-width="3" stroke-linecap="round"/></svg>
+    <svg width="88" height="88" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FFFFFF"/><rect x="9" y="14" width="22" height="12" rx="6" fill="#F2A93B"/><path d="M20 14v12" stroke="#FFFFFF" stroke-width="2"/><path d="M14 9h12M14 31h12" stroke="#003DA5" stroke-width="3" stroke-linecap="round"/></svg>
     <h1>¡Hola! Soy PautApp</h1>
     <p>Te ayudo a recordar tu medicina, cada día, a su hora.</p>
   </header>
@@ -670,7 +675,7 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
   const mondayOf = (d) => { const x = new Date(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; };
   // ---------- languages: the Spanish text is the key; I18N (script above) holds the other languages ----------
   const IDIOMAS = [['es', 'Castellano', 'es-ES'], ['ca', 'Català / Valencià', 'ca-ES'], ['gl', 'Galego', 'gl-ES'], ['eu', 'Euskara', 'eu-ES']];
-  const VERSION = 17;
+  const VERSION = 18;
   let idioma = 'es';
   const tr = (s, ...a) => ((I18N[idioma] && I18N[idioma][s]) || s).replace(/\{(\d)\}/g, (_, i) => a[i]);
   const LOC = () => (IDIOMAS.find((x) => x[0] === idioma) || IDIOMAS[0])[2];
@@ -1282,25 +1287,40 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
     $('t-inr').textContent = last ? last.valor : '—';
     $('t-inr-fecha').textContent = last && last.fecha ? fmtLargo(parseIso(last.fecha)) : tr('Toca para apuntarlo');
     const c = state.control;
-    $('t-control').textContent = c.fecha ? fmtLargo(parseIso(c.fecha)) + (c.hora ? ', ' + c.hora : '') : '—';
-    $('t-turno').textContent = c.turno ? tr('Turno {0}', c.turno) : (c.fecha ? '' : tr('Toca para apuntarlo'));
+    $('t-control').textContent = c.fecha ? fmtLargo(parseIso(c.fecha)) : '—';
+    $('t-turno').textContent = c.fecha ? [c.hora, c.turno ? tr('Turno {0}', c.turno) : ''].filter(Boolean).join(' · ') : tr('Toca para apuntarlo');
     $('btn-hoy-seguir').hidden = !(state.seguits && state.seguits.length);
     checkAlarm();
   }
   // the week strip in the header: Monday to Sunday, ticked when a dose (Sintrom or another medicine) was confirmed
   function renderSetmana(d) {
     const box = $('hoy-setmana'); box.textContent = '';
+    const estat = {}; historial().lista.forEach((x) => { estat[x.k] = x.estado; });
     const lunes = new Date(d); lunes.setDate(d.getDate() - ((d.getDay() + 6) % 7));
     for (let i = 0; i < 7; i++) {
       const x = new Date(lunes); x.setDate(lunes.getDate() + i); const k = iso(x);
-      const meds = tomasMedDia(k), sin = tieneSintrom();
-      const feta = (sin ? !!state.tomas[k] : meds.length > 0) && meds.every((m) => m.t);
-      const el = document.createElement('div'); el.className = k === iso(d) ? 'avui' : (feta && x < d ? 'feta' : '');
+      const avui = k === iso(d), futur = !avui && x > d, e = estat[k];
+      const feta = !avui && e === 'ok', falta = !avui && e === 'no';
+      const el = document.createElement('button'); el.type = 'button';
+      el.className = avui ? 'avui' : futur ? 'futur' : feta ? 'feta' : falta ? 'falta' : '';
+      if (futur || (!avui && !e)) el.disabled = true;
+      else el.addEventListener('click', () => obrirDia(k));
+      el.setAttribute('aria-label', fmtDia(x) + ' ' + fmtLargo(x) + (feta ? ' · ' + tr('Tomada') : falta ? ' · ' + tr('Sin confirmar') : ''));
       const l = document.createElement('span'); l.className = 'l';
       const n = propios(); l.textContent = (n ? n[0][x.getDay()] : x.toLocaleDateString(LOC(), { weekday: 'short' })).replace('.', '').slice(0, 2);
-      const v = document.createElement('span'); v.className = 'n'; v.textContent = feta && x < d ? '✓' : x.getDate();
+      const v = document.createElement('span'); v.className = 'n'; v.textContent = feta ? '✓' : falta ? '!' : x.getDate();
       el.append(l, v); box.appendChild(el);
     }
+  }
+  // tapping a day in the week strip opens Mis tomas at that day, where a missed dose can be marked
+  function obrirDia(k) {
+    go('historial');
+    const row = document.querySelector('#his-lista [data-dia="' + k + '"]');
+    if (!row) return;
+    document.querySelectorAll('#his-lista .marcat').forEach((r) => r.classList.remove('marcat'));
+    row.classList.add('marcat');
+    row.scrollIntoView({ block: 'center' });
+    const b = row.querySelector('button'); (b || row).focus({ preventScroll: true });
   }
   function renderAjustes() {
     $('in-municipio').value = state.municipio || municipio();
@@ -1403,7 +1423,7 @@ const LEGAL = {"ca": {"aviso": "  <h1>Avís legal i condicions d'ús</h1>\n  <p 
     $('his-detalle').textContent = !h.total ? tr('Aún no hay días para mostrar.') : h.soloSintrom ? tr('días con la toma confirmada ({0} %)', h.pct) : tr('tomas confirmadas ({0} %)', h.pct);
     const box = $('his-lista'); box.textContent = '';
     h.lista.forEach((d) => {
-      const row = document.createElement('div'); row.className = 'his-dia';
+      const row = document.createElement('div'); row.className = 'his-dia'; row.dataset.dia = d.k; row.tabIndex = -1;
       const ico = document.createElement('span'); ico.className = 'ico ' + d.estado; ico.setAttribute('aria-hidden', 'true');
       ico.textContent = d.estado === 'ok' ? '✓' : d.estado === 'pend' ? '…' : '!';
       const txt = document.createElement('div'); txt.className = 'txt';
