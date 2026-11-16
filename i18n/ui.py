@@ -243,6 +243,18 @@ UI = [
  "Segur que vols esborrar el teu full, les teves preses i totes les teves dades d'aquest mòbil?",
  'Seguro que queres borrar a túa folla, as túas tomas e todos os teus datos deste móbil?',
  'Ziur zaude zure orria, hartualdiak eta datu guztiak mugikor honetatik ezabatu nahi dituzula?'),
+('Cuándo la tomas', 'Quan la prens', 'Cando a tomas', 'Noiz hartzen duzu'),
+('Mañana', 'Matí', 'Mañá', 'Goiza'),
+('Mediodía', 'Migdia', 'Mediodía', 'Eguerdia'),
+('Noche', 'Nit', 'Noite', 'Gaua'),
+('A qué hora exacta', 'A quina hora exacta', 'A que hora exacta', 'Zein ordutan zehazki'),
+('Puedes cambiar la hora del aviso o añadir otra.', "Pots canviar l'hora de l'avís o afegir-ne una altra.", 'Podes cambiar a hora do aviso ou engadir outra.', 'Abisuaren ordua aldatu edo beste bat gehitu dezakezu.'),
+('Con las comidas', 'Amb els àpats', 'Coas comidas', 'Otorduekin'),
+('Antes de comer', 'Abans de menjar', 'Antes de comer', 'Jan aurretik'),
+('Después de comer', 'Després de menjar', 'Despois de comer', 'Jan ondoren'),
+('Da igual', 'Tant és', 'Dá igual', 'Berdin da'),
+('antes de comer', 'abans de menjar', 'antes de comer', 'jan aurretik'),
+('después de comer', 'després de menjar', 'despois de comer', 'jan ondoren'),
 ]
 
 UI += [
