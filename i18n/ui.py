@@ -202,6 +202,7 @@ UI = [
 ('Dosis del {0}', 'Dosi del {0}', 'Dose do {0}', 'Dosia: {0}'),
 ('tomada (confirmada después)', 'presa (confirmada després)', 'tomada (confirmada despois)', 'hartua (geroago berretsia)'),
 ('tomada a las {0}', 'presa a les {0}', 'tomada ás {0}', 'hartua, ordua: {0}'),
+('tomada el {0} a las {1}', 'presa el {0} a les {1}', 'tomada o {0} ás {1}', 'hartua: {0}, {1}'),
 ('PautApp · Resumen de tomas', 'PautApp · Resum de preses', 'PautApp · Resumo de tomas', 'PautApp · Hartualdien laburpena'),
 ('Del {0} al {1}', 'Del {0} al {1}', 'Do {0} ao {1}', '{0} – {1}'),
 ('Tomas confirmadas: {0} de {1} días ({2} %)', 'Preses confirmades: {0} de {1} dies ({2} %)', 'Tomas confirmadas: {0} de {1} días ({2} %)', 'Berretsitako hartualdiak: {0} / {1} egun (% {2})'),
