@@ -20,6 +20,8 @@ Los datos del titular se rellenan en `TITULAR` dentro de `src/app.html` y en est
 
 Para la versión de una farmacia, copia `farmacia.ejemplo.json` como `farmacia.json` y rellena sus datos (el logo puede ser una imagen en `data:`). Sin `farmacia.json` la app solo muestra los botones de la farmacia más cercana y la de guardia.
 
+Para una demostración a la Generalitat Valenciana, copia `gva.ejemplo.json` como `gva.json` (el logotipo oficial de la Conselleria ya está en `marca-gva.png`): la cabecera muestra «PautApp GVA» y la franja «Generalitat Valenciana · Conselleria de Sanitat». Sin `gva.json` la app sale normal. El logotipo institucional solo se puede usar en una versión pública con permiso de la Conselleria.
+
 ## Idiomas
 
 La app está en castellano, català/valencià (un solo texto), galego y euskara. El texto de `src/app.html` en castellano es la clave; las traducciones están en `i18n/ui.py` (interfaz) y `i18n/legal_*.html` (aviso legal y privacidad). Tras cambiarlas: `python3 i18n/build.py src/app.html`.

@@ -7,8 +7,9 @@ android {
         applicationId "es.inspiramar.mipauta"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode((System.getenv("GITHUB_RUN_NUMBER") ?: "0").toInteger() + 100)
-        versionName "0.16"
+        // minutes since February 2025 (always grows, whichever workflow builds it), so a new APK installs over any older one
+        versionCode((int) (System.currentTimeMillis().intdiv(60000L) - 29000000L))
+        versionName "0.21"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
