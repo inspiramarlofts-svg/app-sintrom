@@ -4,7 +4,7 @@ name: App Android (demo GVA)
 # Published as a separate pre-release "demo-gva", never as "ultima".
 on:
   push:
-    branches: [claude/project-thread-0iv0wf]
+    branches: [claude/project-thread-0iv0wf, claude/project-thread-jbduin]
   workflow_dispatch:
 
 permissions:
