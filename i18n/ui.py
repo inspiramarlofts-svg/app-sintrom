@@ -456,3 +456,17 @@ UI += [
 ('✓ Se abre también con la huella o la cara', "✓ S'obre també amb l'empremta o la cara", '✓ Ábrese tamén coa pegada ou a cara', '✓ Hatz-markarekin edo aurpegiarekin ere irekitzen da'),
 ('Abrir también con la huella o la cara', "Obrir també amb l'empremta o la cara", 'Abrir tamén coa pegada ou a cara', 'Hatz-markarekin edo aurpegiarekin ere ireki'),
 ]
+UI += [
+('¿Proteges PautApp?', 'Protegeixes PautApp?', 'Protexes PautApp?', 'PautApp babestu nahi duzu?'),
+('Con un PIN de 4 números, nadie más podrá ver tus medicinas si coge tu móvil.',
+ 'Amb un PIN de 4 números, ningú més podrà veure les teves medicines si agafa el teu mòbil.',
+ 'Cun PIN de 4 números, ninguén máis poderá ver as túas medicinas se colle o teu móbil.',
+ '4 zenbakiko PIN batekin, beste inork ezin izango ditu zure sendagaiak ikusi mugikorra hartzen badu.'),
+('Después también podrás abrirla con la huella, la cara o el patrón del móvil.',
+ "Després també la podràs obrir amb l'empremta, la cara o el patró del mòbil.",
+ 'Despois tamén poderás abrila coa pegada, a cara ou o padrón do móbil.',
+ 'Gero hatz-markarekin, aurpegiarekin edo mugikorraren ereduarekin ere ireki ahal izango duzu.'),
+('Sí, poner un PIN', 'Sí, posar un PIN', 'Si, poñer un PIN', 'Bai, PIN bat jarri'),
+('Ahora no', 'Ara no', 'Agora non', 'Orain ez'),
+('Lo puedes cambiar cuando quieras en Avisos.', 'Ho pots canviar quan vulguis a Avisos.', 'Podes cambialo cando queiras en Avisos.', 'Nahi duzunean alda dezakezu Abisuak atalean.'),
+]
