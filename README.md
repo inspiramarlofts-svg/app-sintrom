@@ -29,3 +29,10 @@ La app está en castellano, català/valencià (un solo texto), galego y euskara.
 ## Familia
 
 Al empezar, la app pregunta para quién es: para uno mismo, para un familiar al que se la estás preparando, o para recibir los avisos de un familiar. Si la persona lo acepta, su móvil puede avisar al de un hijo o una hija cuando no confirma una toma. Necesita el servidor de `server/` (ver `server/README.md`); sin él, esa parte sale como «todavía no está activada».
+
+## Bloqueo de la app (0.23)
+
+En Avisos → «Proteger la app» la persona pone un PIN de 4 números; la app lo pide al abrirse y al volver después de un minuto fuera. Si el móvil tiene huella, cara o bloqueo de pantalla, también se puede abrir con ellos (plugin `@capgo/capacitor-native-biometric`; en Android incluye el PIN o patrón del propio móvil). Solo se guarda un hash SHA-256 del PIN. Si se olvida el PIN y no hay huella, la única salida es «Borrar todos mis datos».
+
+Para una futura versión de iPhone (`npx cap add ios`), añade a `ios/App/App/Info.plist`:
+`<key>NSFaceIDUsageDescription</key><string>Para abrir PautApp con Face ID.</string>`
