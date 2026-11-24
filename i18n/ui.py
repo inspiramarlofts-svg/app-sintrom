@@ -471,4 +471,8 @@ UI += [
 ('Sí, poner un PIN', 'Sí, posar un PIN', 'Si, poñer un PIN', 'Bai, PIN bat jarri'),
 ('Ahora no', 'Ara no', 'Agora non', 'Orain ez'),
 ('Lo puedes cambiar cuando quieras en Avisos.', 'Ho pots canviar quan vulguis a Avisos.', 'Podes cambialo cando queiras en Avisos.', 'Nahi duzunean alda dezakezu Abisuak atalean.'),
+('Ayer · ', 'Ahir · ', 'Onte · ', 'Atzo · '),
+('Ver mi pauta de ayer', "Veure la meva pauta d'ahir", 'Ver a miña pauta de onte', 'Nire atzoko pauta ikusi'),
+('Ver mi pauta de ese día', "Veure la meva pauta d'aquell dia", 'Ver a miña pauta dese día', 'Egun horretako nire pauta ikusi'),
+('Volver a la pregunta', 'Tornar a la pregunta', 'Volver á pregunta', 'Galderara itzuli'),
 ]
