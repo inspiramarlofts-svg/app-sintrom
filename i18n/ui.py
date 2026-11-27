@@ -475,4 +475,9 @@ UI += [
 ('Ver mi pauta de ayer', "Veure la meva pauta d'ahir", 'Ver a miña pauta de onte', 'Nire atzoko pauta ikusi'),
 ('Ver mi pauta de ese día', "Veure la meva pauta d'aquell dia", 'Ver a miña pauta dese día', 'Egun horretako nire pauta ikusi'),
 ('Volver a la pregunta', 'Tornar a la pregunta', 'Volver á pregunta', 'Galderara itzuli'),
+('Añadir', 'Afegir', 'Engadir', 'Gehitu'),
+('Tomada a las {0}', 'Presa a les {0}', 'Tomada ás {0}', 'Hartua, ordua: {0}'),
+('Ver la dosis más grande', 'Veure la dosi més gran', 'Ver a dose máis grande', 'Dosia handiago ikusi'),
+('Cerrar', 'Tancar', 'Pechar', 'Itxi'),
+('Menú', 'Menú', 'Menú', 'Menua'),
 ]
